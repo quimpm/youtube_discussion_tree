@@ -1,0 +1,121 @@
+
+//TOP LEVEL COMMENT
+{
+"kind": "youtube#commentThread", 
+"etag": "5bia069fouHy2krPkv8iUTL7ITA", 
+"id": "UgzMhtKzKMytypM_HgB4AaABAg", 
+"snippet": {
+        "videoId": "9LAp_1O8jP4", 
+        "topLevelComment": {
+            "kind": "youtube#comment", 
+            "etag": "cwluyGC5ryq9Xd0Z5rxCOQ67tv8", 
+            "id": "UgzMhtKzKMytypM_HgB4AaABAg", 
+            "snippet": {
+                "videoId": "9LAp_1O8jP4", 
+                "textDisplay": "Sweet melody to my ears", 
+                "textOriginal": "Sweet melody to my ears", 
+                "authorDisplayName": "Alvaro Ureña", 
+                "authorProfileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwnigYdNHwssHG-HFpNGfZT596LnK5qhYHEOw_Q=s48-c-k-c0xffffffff-no-rj-mo", 
+                "authorChannelUrl": "http://www.youtube.com/channel/UCaArzM5rk8Mf0hBSE981TYg", 
+                "authorChannelId": {
+                    "value": "UCaArzM5rk8Mf0hBSE981TYg"
+                    }, 
+                "canRate": true, 
+                "viewerRating": "none", 
+                "likeCount": 0, 
+                "publishedAt": "2021-04-02T20:41:51Z", 
+                "updatedAt": "2021-04-02T20:41:51Z"
+            }
+        }, 
+        "canReply": true, 
+        "totalReplyCount": 0, 
+        "isPublic": true
+    }
+}
+
+// REPLIES OF A COMMENT
+{
+    "kind": "youtube#commentThreadListResponse",
+    "etag": "6Ed_G_Vw2pvi6pN0qeKARKFUtbg",
+    "pageInfo": {
+      "totalResults": 1,
+      "resultsPerPage": 20
+    },
+    "items": [
+      {
+        "kind": "youtube#commentThread",
+        "etag": "_GPDyFHw00iDFlWAiszJ6v8dq_M",
+        "id": "UgyMJfJG0MxfkUK7hkl4AaABAg",
+        "replies": {
+          "comments": [
+            {
+              "kind": "youtube#comment",
+              "etag": "0a_KWx-T1x33YJSFPleGy-0xl2E",
+              "id": "UgyMJfJG0MxfkUK7hkl4AaABAg.9LdJ3eyjnF19LdOWrt4Q0A",
+              "snippet": {
+                "videoId": "9LAp_1O8jP4",
+                "textDisplay": "All love from us! Thanks for the vibes, Chris.",
+                "textOriginal": "All love from us! Thanks for the vibes, Chris.",
+                "parentId": "UgyMJfJG0MxfkUK7hkl4AaABAg",
+                "authorDisplayName": "MANSCAPED",
+                "authorProfileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwngZOnh__cERgYs3T7mvQSMcrl3MBfvEBidoaaKwxA=s48-c-k-c0xffffffff-no-rj-mo",
+                "authorChannelUrl": "http://www.youtube.com/channel/UCSFOWOgB_s52kkhzRaCS2gQ",
+                "authorChannelId": {
+                  "value": "UCSFOWOgB_s52kkhzRaCS2gQ"
+                },
+                "canRate": true,
+                "viewerRating": "none",
+                "likeCount": 4,
+                "publishedAt": "2021-04-02T16:21:03Z",
+                "updatedAt": "2021-04-02T16:21:03Z"
+              }
+            },
+            {
+              "kind": "youtube#comment",
+              "etag": "AdhFJW-E2MPJ27KDDFQCfSZV4N0",
+              "id": "UgyMJfJG0MxfkUK7hkl4AaABAg.9LdJ3eyjnF19LdXVyHKC5M",
+              "snippet": {
+                "videoId": "9LAp_1O8jP4",
+                "textDisplay": "Just bought a kit with your referral link - enjoy :)",
+                "textOriginal": "Just bought a kit with your referral link - enjoy :)",
+                "parentId": "UgyMJfJG0MxfkUK7hkl4AaABAg",
+                "authorDisplayName": "dislexicllama",
+                "authorProfileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwnhqMMohwtQZY7H9Kr0sGePDMvLBXE3NiOkfJQ=s48-c-k-c0xffffffff-no-rj-mo",
+                "authorChannelUrl": "http://www.youtube.com/channel/UCBGGUFpYhNE_k0nZrC4ciPw",
+                "authorChannelId": {
+                  "value": "UCBGGUFpYhNE_k0nZrC4ciPw"
+                },
+                "canRate": true,
+                "viewerRating": "none",
+                "likeCount": 2,
+                "publishedAt": "2021-04-02T17:39:34Z",
+                "updatedAt": "2021-04-02T17:39:34Z"
+              }
+            },
+            {
+              "kind": "youtube#comment",
+              "etag": "KMIZlk7uAewEVrFwjKvY976J9y4",
+              "id": "UgyMJfJG0MxfkUK7hkl4AaABAg.9LdJ3eyjnF19LeBeawXyza",
+              "snippet": {
+                "videoId": "9LAp_1O8jP4",
+                "textDisplay": "Can&#39;t be mad after that set...",
+                "textOriginal": "Can't be mad after that set...",
+                "parentId": "UgyMJfJG0MxfkUK7hkl4AaABAg",
+                "authorDisplayName": "L Nash",
+                "authorProfileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwngPU2SErim4F7W7_sdEedVMs0wqGkSqI6Jj5Q=s48-c-k-c0xffffffff-no-rj-mo",
+                "authorChannelUrl": "http://www.youtube.com/channel/UCxq7_0LuToQYvPM_p8J6Rpw",
+                "authorChannelId": {
+                  "value": "UCxq7_0LuToQYvPM_p8J6Rpw"
+                },
+                "canRate": true,
+                "viewerRating": "none",
+                "likeCount": 1,
+                "publishedAt": "2021-04-02T23:47:53Z",
+                "updatedAt": "2021-04-02T23:47:53Z"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
