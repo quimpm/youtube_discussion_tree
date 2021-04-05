@@ -1,10 +1,12 @@
-#Script prova descarregar comentaris d'un viedo
 import requests
+import sys
 from collections import namedtuple
 
+Video = namedtuple("Video", ["id", "comments"])
 CommentThread = namedtuple("CommentThread", ["topLevelComment", "replies"])
 Comment = namedtuple("Comment", ["author", "likeCount", "id", "text"])
-url = "https://www.googleapis.com/youtube/v3/commentThreads"
+
+apiurl = "https://www.googleapis.com/youtube/v3/commentThreads"
 apikey = "AIzaSyD-UjlHhqsZkhKKrDFp5PNaHyS6JHjLSUg"
 
 def parse_replies(replies_json):
@@ -25,7 +27,7 @@ def request_comment_replies(id_top_level_comment):
         "id" : id_top_level_comment,
         "maxResults" : 100
     }
-    return requests.get(url, params = params).json()
+    return requests.get(apiurl, params = params).json()
 
 def get_comment_replies(id_top_level_comment):
     replies_json = request_comment_replies(id_top_level_comment)
@@ -41,22 +43,29 @@ def construct_comment_threads(api_call_result):
                                         ), get_comment_replies(x["snippet"]["topLevelComment"]["id"])),  api_call_result["items"]))
 
 
-def request_video_top_level_comments():
-    id_video = "9LAp_1O8jP4"
-    url = "https://www.googleapis.com/youtube/v3/commentThreads"
-    apikey = "AIzaSyD-UjlHhqsZkhKKrDFp5PNaHyS6JHjLSUg"
+def request_video_top_level_comments(id_video):
     params = {
         "key" : apikey,
         "part" : "snippet",
         "videoId" : id_video,
         "maxResults" : 100
     }
-    return requests.get(url, params = params).json()
+    return requests.get(apiurl, params = params).json()
 
+def get_comment_threads_from_video(id_video):
+    result = request_video_top_level_comments(id_video)
+    return construct_comment_threads(result)
+
+
+#Intentar pillar context del video amb alguna eina que pasi el video a text i amb una altra eina fer un sumarize. D'aquesta forma intentant pillar com a top level comment el contingut del video.
+#https://github.com/rkomar4815/Video-Speech-to-Text
+#https://deepai.org/machine-learning-model/summarization
 def main():
-    result = request_video_top_level_comments()
-    commentThreads = construct_comment_threads(result)
-    print(commentThreads)
+    print("Put the id of the videos of which you want to download the comments separated by spaces")
+    print("Example: <vid_id> <vid_id> <vid_id> ... <video_id>")
+    id_videos = input().split()
+    video_comments = list(map(lambda x : Video(id = x, comments=get_comment_threads_from_video(x)), id_videos))
+    print(video_comments)
 
 if __name__ == "__main__":
     main()
