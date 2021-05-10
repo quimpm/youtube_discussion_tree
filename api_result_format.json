@@ -1,121 +1,134 @@
-
-//TOP LEVEL COMMENT
 {
-"kind": "youtube#commentThread", 
-"etag": "5bia069fouHy2krPkv8iUTL7ITA", 
-"id": "UgzMhtKzKMytypM_HgB4AaABAg", 
-"snippet": {
-        "videoId": "9LAp_1O8jP4", 
+  "kind": "youtube#commentThreadListResponse",
+  "etag": "0R9HGHtyjdJAWkYJQVGXzsX8ENU",
+  "pageInfo": {
+    "totalResults": 1,
+    "resultsPerPage": 20
+  },
+  "items": [
+    {
+      "kind": "youtube#commentThread",
+      "etag": "WO327511kmnEWPjwAuue58TGwPA",
+      "id": "UgznJ9jPP_p6uIF5Wfp4AaABAg",
+      "snippet": {
+        "videoId": "9GHmfg54gg8",
         "topLevelComment": {
-            "kind": "youtube#comment", 
-            "etag": "cwluyGC5ryq9Xd0Z5rxCOQ67tv8", 
-            "id": "UgzMhtKzKMytypM_HgB4AaABAg", 
-            "snippet": {
-                "videoId": "9LAp_1O8jP4", 
-                "textDisplay": "Sweet melody to my ears", 
-                "textOriginal": "Sweet melody to my ears", 
-                "authorDisplayName": "Alvaro Ureña", 
-                "authorProfileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwnigYdNHwssHG-HFpNGfZT596LnK5qhYHEOw_Q=s48-c-k-c0xffffffff-no-rj-mo", 
-                "authorChannelUrl": "http://www.youtube.com/channel/UCaArzM5rk8Mf0hBSE981TYg", 
-                "authorChannelId": {
-                    "value": "UCaArzM5rk8Mf0hBSE981TYg"
-                    }, 
-                "canRate": true, 
-                "viewerRating": "none", 
-                "likeCount": 0, 
-                "publishedAt": "2021-04-02T20:41:51Z", 
-                "updatedAt": "2021-04-02T20:41:51Z"
-            }
-        }, 
-        "canReply": true, 
-        "totalReplyCount": 0, 
+          "kind": "youtube#comment",
+          "etag": "fh7gBHDDEVDtEVvJMLLzIWueVUc",
+          "id": "UgznJ9jPP_p6uIF5Wfp4AaABAg",
+          "snippet": {
+            "videoId": "9GHmfg54gg8",
+            "textDisplay": "This is a demo to see how comments work",
+            "textOriginal": "This is a demo to see how comments work",
+            "authorDisplayName": "Argumentative Parser",
+            "authorProfileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwngGtyWqHspYgchHwywyGGevUAz3kOPvGsG3bw=s48-c-k-c0xffffffff-no-rj-mo",
+            "authorChannelUrl": "http://www.youtube.com/channel/UCv3WX7u1Yjk6umXJiOdmtdg",
+            "authorChannelId": {
+              "value": "UCv3WX7u1Yjk6umXJiOdmtdg"
+            },
+            "canRate": true,
+            "viewerRating": "none",
+            "likeCount": 0,
+            "publishedAt": "2021-05-04T14:03:40Z",
+            "updatedAt": "2021-05-04T14:03:40Z"
+          }
+        },
+        "canReply": true,
+        "totalReplyCount": 4,
         "isPublic": true
-    }
-}
-
-// REPLIES OF A COMMENT
-{
-    "kind": "youtube#commentThreadListResponse",
-    "etag": "6Ed_G_Vw2pvi6pN0qeKARKFUtbg",
-    "pageInfo": {
-      "totalResults": 1,
-      "resultsPerPage": 20
-    },
-    "items": [
-      {
-        "kind": "youtube#commentThread",
-        "etag": "_GPDyFHw00iDFlWAiszJ6v8dq_M",
-        "id": "UgyMJfJG0MxfkUK7hkl4AaABAg",
-        "replies": {
-          "comments": [
-            {
-              "kind": "youtube#comment",
-              "etag": "0a_KWx-T1x33YJSFPleGy-0xl2E",
-              "id": "UgyMJfJG0MxfkUK7hkl4AaABAg.9LdJ3eyjnF19LdOWrt4Q0A",
-              "snippet": {
-                "videoId": "9LAp_1O8jP4",
-                "textDisplay": "All love from us! Thanks for the vibes, Chris.",
-                "textOriginal": "All love from us! Thanks for the vibes, Chris.",
-                "parentId": "UgyMJfJG0MxfkUK7hkl4AaABAg",
-                "authorDisplayName": "MANSCAPED",
-                "authorProfileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwngZOnh__cERgYs3T7mvQSMcrl3MBfvEBidoaaKwxA=s48-c-k-c0xffffffff-no-rj-mo",
-                "authorChannelUrl": "http://www.youtube.com/channel/UCSFOWOgB_s52kkhzRaCS2gQ",
-                "authorChannelId": {
-                  "value": "UCSFOWOgB_s52kkhzRaCS2gQ"
-                },
-                "canRate": true,
-                "viewerRating": "none",
-                "likeCount": 4,
-                "publishedAt": "2021-04-02T16:21:03Z",
-                "updatedAt": "2021-04-02T16:21:03Z"
-              }
-            },
-            {
-              "kind": "youtube#comment",
-              "etag": "AdhFJW-E2MPJ27KDDFQCfSZV4N0",
-              "id": "UgyMJfJG0MxfkUK7hkl4AaABAg.9LdJ3eyjnF19LdXVyHKC5M",
-              "snippet": {
-                "videoId": "9LAp_1O8jP4",
-                "textDisplay": "Just bought a kit with your referral link - enjoy :)",
-                "textOriginal": "Just bought a kit with your referral link - enjoy :)",
-                "parentId": "UgyMJfJG0MxfkUK7hkl4AaABAg",
-                "authorDisplayName": "dislexicllama",
-                "authorProfileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwnhqMMohwtQZY7H9Kr0sGePDMvLBXE3NiOkfJQ=s48-c-k-c0xffffffff-no-rj-mo",
-                "authorChannelUrl": "http://www.youtube.com/channel/UCBGGUFpYhNE_k0nZrC4ciPw",
-                "authorChannelId": {
-                  "value": "UCBGGUFpYhNE_k0nZrC4ciPw"
-                },
-                "canRate": true,
-                "viewerRating": "none",
-                "likeCount": 2,
-                "publishedAt": "2021-04-02T17:39:34Z",
-                "updatedAt": "2021-04-02T17:39:34Z"
-              }
-            },
-            {
-              "kind": "youtube#comment",
-              "etag": "KMIZlk7uAewEVrFwjKvY976J9y4",
-              "id": "UgyMJfJG0MxfkUK7hkl4AaABAg.9LdJ3eyjnF19LeBeawXyza",
-              "snippet": {
-                "videoId": "9LAp_1O8jP4",
-                "textDisplay": "Can&#39;t be mad after that set...",
-                "textOriginal": "Can't be mad after that set...",
-                "parentId": "UgyMJfJG0MxfkUK7hkl4AaABAg",
-                "authorDisplayName": "L Nash",
-                "authorProfileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwngPU2SErim4F7W7_sdEedVMs0wqGkSqI6Jj5Q=s48-c-k-c0xffffffff-no-rj-mo",
-                "authorChannelUrl": "http://www.youtube.com/channel/UCxq7_0LuToQYvPM_p8J6Rpw",
-                "authorChannelId": {
-                  "value": "UCxq7_0LuToQYvPM_p8J6Rpw"
-                },
-                "canRate": true,
-                "viewerRating": "none",
-                "likeCount": 1,
-                "publishedAt": "2021-04-02T23:47:53Z",
-                "updatedAt": "2021-04-02T23:47:53Z"
-              }
+      },
+      "replies": {
+        "comments": [
+          {
+            "kind": "youtube#comment",
+            "etag": "Q15pYx04Do1wwqjMy92CDO1UTLk",
+            "id": "UgznJ9jPP_p6uIF5Wfp4AaABAg.9MvYEeiNOK-9MvYcfNG7h0",
+            "snippet": {
+              "videoId": "9GHmfg54gg8",
+              "textDisplay": "@Quim Picó Mora Vaja, veig que youtube permet que dos tios es diguin igual i comentin als comentaris",
+              "textOriginal": "@Quim Picó Mora Vaja, veig que youtube permet que dos tios es diguin igual i comentin als comentaris",
+              "parentId": "UgznJ9jPP_p6uIF5Wfp4AaABAg",
+              "authorDisplayName": "Argumentative Parser",
+              "authorProfileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwngGtyWqHspYgchHwywyGGevUAz3kOPvGsG3bw=s48-c-k-c0xffffffff-no-rj-mo",
+              "authorChannelUrl": "http://www.youtube.com/channel/UCv3WX7u1Yjk6umXJiOdmtdg",
+              "authorChannelId": {
+                "value": "UCv3WX7u1Yjk6umXJiOdmtdg"
+              },
+              "canRate": true,
+              "viewerRating": "none",
+              "likeCount": 0,
+              "publishedAt": "2021-05-04T14:07:05Z",
+              "updatedAt": "2021-05-04T14:07:05Z"
             }
-          ]
-        }
+          },
+          {
+            "kind": "youtube#comment",
+            "etag": "OIDSF9S9ecrDj-EGXQoagiW8O5s",
+            "id": "UgznJ9jPP_p6uIF5Wfp4AaABAg.9MvYEeiNOK-9MvYTJqtQ01",
+            "snippet": {
+              "videoId": "9GHmfg54gg8",
+              "textDisplay": "@Quim Picó Mora Hola quim",
+              "textOriginal": "@Quim Picó Mora Hola quim",
+              "parentId": "UgznJ9jPP_p6uIF5Wfp4AaABAg",
+              "authorDisplayName": "Quim Picó Mora",
+              "authorProfileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwniuScyRtSO5hBhAm9XoMw3X7bnxbYldxEnUPkfrrg=s48-c-k-c0xffffffff-no-rj-mo",
+              "authorChannelUrl": "http://www.youtube.com/channel/UCt-NaKjttdPl5F_4t8mT_bA",
+              "authorChannelId": {
+                "value": "UCt-NaKjttdPl5F_4t8mT_bA"
+              },
+              "canRate": true,
+              "viewerRating": "none",
+              "likeCount": 0,
+              "publishedAt": "2021-05-04T14:05:40Z",
+              "updatedAt": "2021-05-04T14:05:40Z"
+            }
+          },
+          {
+            "kind": "youtube#comment",
+            "etag": "sezVN6ndXQxoX_oHUTOzk5GR0UA",
+            "id": "UgznJ9jPP_p6uIF5Wfp4AaABAg.9MvYEeiNOK-9MvYRUvooiC",
+            "snippet": {
+              "videoId": "9GHmfg54gg8",
+              "textDisplay": "Epale, jo soc el quim número 2",
+              "textOriginal": "Epale, jo soc el quim número 2",
+              "parentId": "UgznJ9jPP_p6uIF5Wfp4AaABAg",
+              "authorDisplayName": "Quim Picó Mora",
+              "authorProfileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwniuScyRtSO5hBhAm9XoMw3X7bnxbYldxEnUPkfrrg=s48-c-k-c0xffffffff-no-rj-mo",
+              "authorChannelUrl": "http://www.youtube.com/channel/UCt-NaKjttdPl5F_4t8mT_bA",
+              "authorChannelId": {
+                "value": "UCt-NaKjttdPl5F_4t8mT_bA"
+              },
+              "canRate": true,
+              "viewerRating": "none",
+              "likeCount": 0,
+              "publishedAt": "2021-05-04T14:05:25Z",
+              "updatedAt": "2021-05-04T14:05:25Z"
+            }
+          },
+          {
+            "kind": "youtube#comment",
+            "etag": "PJHbFGoP2rvGZaok1N76YJvusdk",
+            "id": "UgznJ9jPP_p6uIF5Wfp4AaABAg.9MvYEeiNOK-9MvYLPbgx68",
+            "snippet": {
+              "videoId": "9GHmfg54gg8",
+              "textDisplay": "Hola, soc el quim número 1",
+              "textOriginal": "Hola, soc el quim número 1",
+              "parentId": "UgznJ9jPP_p6uIF5Wfp4AaABAg",
+              "authorDisplayName": "Quim Picó Mora",
+              "authorProfileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwnjLs2Ph1iU0PHDx8aFIttpfSqJZZsH-Y9gIAg=s48-c-k-c0xffffffff-no-rj-mo",
+              "authorChannelUrl": "http://www.youtube.com/channel/UCUR1hhWuXlbXgLJ2gwHgzLQ",
+              "authorChannelId": {
+                "value": "UCUR1hhWuXlbXgLJ2gwHgzLQ"
+              },
+              "canRate": true,
+              "viewerRating": "none",
+              "likeCount": 0,
+              "publishedAt": "2021-05-04T14:04:35Z",
+              "updatedAt": "2021-05-04T14:04:35Z"
+            }
+          }
+        ]
       }
-    ]
-  }
+    }
+  ]
+}

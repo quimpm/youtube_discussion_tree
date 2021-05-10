@@ -1,0 +1,99 @@
+% !TeX spellcheck = ca
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{ amssymb }
+\usepackage{tikz}
+\usepackage{float}
+\usepackage[simplified]{pgf-umlcd}
+\usepackage{subfiles}
+\usepackage{listings}
+\usepackage[lighttt]{lmodern}
+\usepackage{color}
+\usepackage[nottoc,numbib]{tocbibind}
+
+\graphicspath{ {img/} }
+
+\usetikzlibrary{positioning,fit,calc,arrows.meta, shapes, snakes}
+%Tot això hauria d'anar en un pkg, però no sé com és fa
+\newcommand*{\assignatura}[1]{\gdef\1assignatura{#1}}
+\newcommand*{\grup}[1]{\gdef\3grup{#1}}
+\newcommand*{\professorat}[1]{\gdef\4professorat{#1}}
+\renewcommand{\title}[1]{\gdef\5title{#1}}
+\renewcommand{\author}[1]{\gdef\6author{#1}}
+\renewcommand{\date}[1]{\gdef\7date{#1}}
+\renewcommand{\baselinestretch}{1.5}
+\renewcommand{\maketitle}{ %fa el maketitle de nou
+	\begin{titlepage}
+		\raggedright{UNIVERSITAT DE LLEIDA \\
+			Escola Politècnica Superior \\
+			Grau en Enginyeria Informàtica\\
+			\1assignatura\\}
+		\vspace{5cm}
+		\centering\huge{\5title \\}
+		\vspace{3cm}
+		\large{\6author} \\
+		\normalsize{\3grup}
+		\vfill
+		Director : \4professorat \\
+		Data : \7date
+\end{titlepage}}
+%Emplenar a partir d'aquí per a fer el títol : no se com es fa el package
+%S'han de renombrar totes, inclús date, si un camp es deixa en blanc no apareix
+
+
+	%Style of nodes. Si poses aquí un estil es pot reutilitzar més facilment
+	\makeatletter
+	\tikzset{
+		database/.style={
+			path picture={
+				\draw (0, 1.5*\database@segmentheight) circle [x radius=\database@radius,y radius=\database@aspectratio*\database@radius];
+				\draw (-\database@radius, 0.5*\database@segmentheight) arc [start angle=180,end angle=360,x radius=\database@radius, y radius=\database@aspectratio*\database@radius];
+				\draw (-\database@radius,-0.5*\database@segmentheight) arc [start angle=180,end angle=360,x radius=\database@radius, y radius=\database@aspectratio*\database@radius];
+				\draw (-\database@radius,1.5*\database@segmentheight) -- ++(0,-3*\database@segmentheight) arc [start angle=180,end angle=360,x radius=\database@radius, y radius=\database@aspectratio*\database@radius] -- ++(0,3*\database@segmentheight);
+			},
+			minimum width=2*\database@radius + \pgflinewidth,
+			minimum height=3*\database@segmentheight + 2*\database@aspectratio*\database@radius + \pgflinewidth,
+		},
+		database segment height/.store in=\database@segmentheight,
+		database radius/.store in=\database@radius,
+		database aspect ratio/.store in=\database@aspectratio,
+		database segment height=0.1cm,
+		database radius=0.25cm,
+		database aspect ratio=0.35,
+	}
+	\makeatother
+\title{Estudi de discussions en xarxes socials: Youtube}
+\author{Joaquim Picó Mora}
+\date{XXXX-XX-XX}
+\assignatura{Treball de fi de grau}
+\professorat{R.Bejar}
+\grup{}
+
+\renewcommand{\refname}{Bibliografia}
+
+%Comença el document
+\begin{document}
+	\maketitle
+	\thispagestyle{empty}
+	\newpage
+	\pagenumbering{roman}
+	\tableofcontents
+	\newpage
+	\pagenumbering{arabic}
+	\section{Introducció}
+	\subfile{intro/intro.tex}
+	\section{Descripció del Problema}
+	\subfile{descripcio_problema/descripcio_problema.tex}
+	\section{Recollida de Dades}
+	\subfile{recollida_de_dades/recollida_de_dades.tex}
+	\section{Transformació de les Dades}
+	\subfile{transformacio_de_les_dades/transformacio_de_les_dades.tex}
+	\section{Integració amb l'eina d'anàlisi}
+	\subfile{integracio_eina_analisi/integracio_eina_analisi.tex}´
+	\section{Bibliography}
+	\subfile{bibliografia/bibliografia.tex}
+	
+\end{document}
