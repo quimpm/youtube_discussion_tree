@@ -13,6 +13,18 @@ youtube_apikey = "AIzaSyD-UjlHhqsZkhKKrDFp5PNaHyS6JHjLSUg"
 deepAI_apikey = "034ca4b8-4048-4f97-94f8-799dba1f25dc"
 deepAI_url = "https://api.deepai.org/api/summarization"
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
 
 def get_video_info(id_video):
     params = {
@@ -59,12 +71,13 @@ def find_name_in_thread(possible_names, contributions):
     return []
 
 def conflict_more_than_one_contribution(name, replie, contributions):
-    print("\nA conflict was found, to wich of this comments:")
+    print("\n" + bcolors.WARNING + "A CONFLICT was found:" + bcolors.ENDC)
+    print(bcolors.OKGREEN + "To which of this comments:" + bcolors.ENDC)
     for i, comment in enumerate(contributions[name]):
-        print(str(i)+" - "+comment.text)
-    print("Belongs the replie:")
-    print("- "+replie["snippet"]["textOriginal"])
-    number = input("Enter the number of the comment: ")
+        print(bcolors.OKCYAN + str(i)+" - "+comment.text + bcolors.ENDC)
+    print(bcolors.OKGREEN + "Belongs the replie:" + bcolors.ENDC)
+    print(bcolors.OKCYAN + "- "+replie["snippet"]["textOriginal"] + bcolors.ENDC)
+    number = input(bcolors.OKGREEN + "Enter the number of the comment: " + bcolors.ENDC)
     return Node(
                 parent = contributions[name][int(number)],
                 id = replie["id"],
@@ -129,9 +142,11 @@ def create_top_level_comment_node(top_level_comment, parent):
     )
 
 def create_comment_nodes(comment_threads, video_node):
+    replies = []
     for comment_thread in comment_threads:
         top_level_coment = create_top_level_comment_node(comment_thread["snippet"]["topLevelComment"], video_node)
-        replies = create_replies_nodes(reversed(comment_thread["replies"]["comments"]), top_level_coment)
+        if "replies" in comment_thread.keys():
+            replies = create_replies_nodes(reversed(comment_thread["replies"]["comments"]), top_level_coment)
     return [top_level_coment] + replies
 
 def create_root_node(video_sumarized, video_info):
