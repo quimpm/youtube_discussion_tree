@@ -74,10 +74,10 @@ def conflict_more_than_one_contribution(name, replie, contributions):
     print("\n" + bcolors.WARNING + "A CONFLICT was found:" + bcolors.ENDC)
     print(bcolors.OKGREEN + "To which of this comments:" + bcolors.ENDC)
     for i, comment in enumerate(contributions[name]):
-        print(bcolors.OKCYAN + str(i)+" - "+comment.text + bcolors.ENDC)
-    print(bcolors.OKGREEN + "Belongs the replie:" + bcolors.ENDC)
+        print("\n" + bcolors.BOLD + str(i) + bcolors.ENDC + bcolors.OKCYAN + " - "+comment.text + bcolors.ENDC)
+    print("\n" + bcolors.OKGREEN + "Belongs the replie:" + bcolors.ENDC)
     print(bcolors.OKCYAN + "- "+replie["snippet"]["textOriginal"] + bcolors.ENDC)
-    number = input(bcolors.OKGREEN + "Enter the number of the comment: " + bcolors.ENDC)
+    number = input("\n" + bcolors.OKGREEN + "Enter the number of the comment: " + bcolors.ENDC)
     return Node(
                 parent = contributions[name][int(number)],
                 id = replie["id"],
