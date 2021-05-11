@@ -2,6 +2,7 @@ import requests
 import sys
 import re
 from collections import namedtuple
+import xml.etree.ElementTree as ET
 from youtube_transcript_api import YouTubeTranscriptApi
 
 Node = namedtuple("Node", ["id", "author_name", "author_id", "text", "likeCount", "parent"])
@@ -187,6 +188,36 @@ def create_root_node(video_sumarized, video_info):
             likeCount = video_info["items"][0]["statistics"]["likeCount"]
         )
 
+def create_argument(argument_list, node):
+    arg = ET.SubElement(argument_list, "arg")
+    arg.text = node.text
+    arg.set("author", node.author_name)
+    arg.set("author_id", node.author_id)
+    arg.set("id", node.id)
+    arg.set("score", str(node.likeCount))
+
+def create_pair(argument_pair, node, i):
+    if node.parent:
+        pair = ET.SubElement(argument_pair, "pair")
+        pair.set("id", str(i))
+        t = ET.SubElement(pair, "t")
+        t.set("id", node.id)
+        h = ET.SubElement(pair, "h")
+        h.set("id", node.parent)
+
+def createXML(node_list):
+    root = ET.Element("entailment-corpus")
+    root.set("num_edges", str(len(node_list)-1))
+    root.set("num_nodes", str(len(node_list)))
+    argument_lists = ET.SubElement(root, "argument-list")
+    argument_pairs = ET.SubElement(root, "argument-pairs")
+    for i,node in enumerate(node_list):
+        create_argument(argument_lists, node)
+        create_pair(argument_pairs, node, i)
+    tree = ET.ElementTree()
+    tree._setroot(root)
+    tree.write("output.xml")
+
 def main():
     print("Put the id of the video of which you want to download the comments")
     id_video = input()
@@ -195,8 +226,7 @@ def main():
     comments = get_video_comments(id_video)
     root = create_root_node(video_sumarized, video_info)
     node_list = [root] + create_comment_nodes(comments["items"], root)
-    for node in node_list:
-        print(str(node) + "\n")
+    createXML(node_list)
 
 if __name__ == "__main__":
     main()
