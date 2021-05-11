@@ -1,11 +1,6 @@
 - Vigilar cuota
     · Notificar quota al iniciar script or smth
-- Dislikes comentaris??
-    · Sembla que el contador está desactivat. Pero s'envia informació a google. Perque? Nuse, suposo que per temes seus d'algoritmes de recomanacio etc els hi va be
-- Intentar conseguir estructura d'arbre als comentaris
-    · Sempre que trobem el patró @[char] a l'inici d'una reply, tirar comentaris enrrere fins a trobar a qui es referencia.
-        * Els noms de canal no són únics i van de longitut 6 a 20.
-        Per tant es pot intentar fer un algoritme que un cop trobi un tag d'un canal el busqui enrrera i s'afegeixi als replires d'aquest comentari.(Bastant costós)
+- Millorar control de conflictes
 - printar graf eina guillem
     - Per més endavant. Buscar alguna eina per a ficar al panell d'angular que va fer el guillem el graf de la combersa.
 - chrome extension
