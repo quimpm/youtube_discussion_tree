@@ -25,7 +25,6 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 
-
 def get_video_info(id_video):
     params = {
         "key" : youtube_apikey,
@@ -73,13 +72,35 @@ def find_name_in_thread(possible_names, contributions):
 def conflict_more_than_one_contribution(name, replie, contributions):
     print("\n" + bcolors.WARNING + "A CONFLICT was found:" + bcolors.ENDC)
     print(bcolors.OKGREEN + "To which of this comments:" + bcolors.ENDC)
-    for i, comment in enumerate(contributions[name]):
+    for i, comment in enumerate(contributions[name][list(contributions[name].keys())[0]]):
         print("\n" + bcolors.BOLD + str(i) + bcolors.ENDC + bcolors.OKCYAN + " - "+comment.text + bcolors.ENDC)
     print("\n" + bcolors.OKGREEN + "Belongs the replie:" + bcolors.ENDC)
     print(bcolors.OKCYAN + "- "+replie["snippet"]["textOriginal"] + bcolors.ENDC)
     number = input("\n" + bcolors.OKGREEN + "Enter the number of the comment: " + bcolors.ENDC)
     return Node(
-                parent = contributions[name][int(number)],
+                parent = contributions[name][list(contributions[name].keys())[0]][int(number)].id,
+                id = replie["id"],
+                author_id = replie["snippet"]["authorChannelId"]["value"],
+                author_name = replie["snippet"]["authorDisplayName"],
+                text = replie["snippet"]["textOriginal"],
+                likeCount = replie["snippet"]["likeCount"]
+            )
+
+def conflict_users_with_same_username_in_thread(name, replie, contributions):
+    print("\n" + bcolors.WARNING + "A CONFLICT was found:" + bcolors.ENDC)
+    print(bcolors.OKGREEN + "Found some users with same username in a comment thread: "+ name + bcolors.ENDC)
+    print(bcolors.OKGREEN + "To which of this comments of the users with same username:" + bcolors.ENDC)
+    for id_user in contributions[name].keys():
+        if id_user != replie["snippet"]["authorChannelId"]["value"]:
+            print("\n- "+id_user)
+            for i,comment in enumerate(contributions[name][id_user]):
+                print(bcolors.BOLD + str(i) + bcolors.ENDC + bcolors.OKCYAN + " - "+comment.text + bcolors.ENDC + "\n")
+    print("\n" + bcolors.OKGREEN + "It belongs the replie:" + bcolors.ENDC)
+    print(bcolors.OKCYAN + "- "+replie["snippet"]["textOriginal"] + bcolors.ENDC)
+    id_user = input("\n" + bcolors.OKGREEN + "Enter the id of the user: " + bcolors.ENDC)
+    comment = input("\n" + bcolors.OKGREEN + "Enter the number of the comment: " + bcolors.ENDC)
+    return Node(
+                parent = contributions[name][id_user][int(comment)].id,
                 id = replie["id"],
                 author_id = replie["snippet"]["authorChannelId"]["value"],
                 author_name = replie["snippet"]["authorDisplayName"],
@@ -88,21 +109,25 @@ def conflict_more_than_one_contribution(name, replie, contributions):
             )
 
 def create_deep_replie_node(name, replie, contributions):
-    if len(contributions[name]) == 1:
-        return Node(
-                parent = contributions[name][0],
-                id = replie["id"],
-                author_id = replie["snippet"]["authorChannelId"]["value"],
-                author_name = replie["snippet"]["authorDisplayName"],
-                text = replie["snippet"]["textOriginal"],
-                likeCount = replie["snippet"]["likeCount"]
-            )
+    id_users = contributions[name].keys()
+    if len(id_users) == 1:
+        if len(contributions[name][list(contributions[name].keys())[0]]) == 1:
+            return Node(
+                    parent = contributions[name][list(contributions[name].keys())[0]][0].id,
+                    id = replie["id"],
+                    author_id = replie["snippet"]["authorChannelId"]["value"],
+                    author_name = replie["snippet"]["authorDisplayName"],
+                    text = replie["snippet"]["textOriginal"],
+                    likeCount = replie["snippet"]["likeCount"]
+                )
+        else:
+            return conflict_more_than_one_contribution(name, replie, contributions)
     else:
-        return conflict_more_than_one_contribution(name, replie, contributions)
+            return conflict_users_with_same_username_in_thread(name, replie, contributions)
 
 def create_normal_replie_node(parent, replie):
     return  Node(
-                parent = parent,
+                parent = parent.id,
                 id = replie["id"],
                 author_id = replie["snippet"]["authorChannelId"]["value"],
                 author_name = replie["snippet"]["authorDisplayName"],
@@ -126,9 +151,12 @@ def create_replies_nodes(replies, parent):
             node =  create_normal_replie_node(parent, replie)
         nodes.append(node)
         if replie["snippet"]["authorDisplayName"] in contributions.keys():
-            contributions[replie["snippet"]["authorDisplayName"]].append(node)
+            if replie["snippet"]["authorChannelId"]["value"] in contributions[replie["snippet"]["authorDisplayName"]].keys():
+                contributions[replie["snippet"]["authorDisplayName"]][replie["snippet"]["authorChannelId"]["value"]].append(node)
+            else: 
+                contributions[replie["snippet"]["authorDisplayName"]][replie["snippet"]["authorChannelId"]["value"]] = [node]
         else:
-            contributions[replie["snippet"]["authorDisplayName"]] = [node]
+            contributions[replie["snippet"]["authorDisplayName"]] = {replie["snippet"]["authorChannelId"]["value"] : [node]}
     return nodes
 
 def create_top_level_comment_node(top_level_comment, parent):
@@ -138,7 +166,7 @@ def create_top_level_comment_node(top_level_comment, parent):
         author_name = top_level_comment["snippet"]["authorDisplayName"],
         text = top_level_comment["snippet"]["textOriginal"],
         likeCount = top_level_comment["snippet"]["likeCount"],
-        parent = parent
+        parent = parent.id
     )
 
 def create_comment_nodes(comment_threads, video_node):
@@ -146,7 +174,7 @@ def create_comment_nodes(comment_threads, video_node):
     for comment_thread in comment_threads:
         top_level_coment = create_top_level_comment_node(comment_thread["snippet"]["topLevelComment"], video_node)
         if "replies" in comment_thread.keys():
-            replies = create_replies_nodes(reversed(comment_thread["replies"]["comments"]), top_level_coment)
+            replies += create_replies_nodes(reversed(comment_thread["replies"]["comments"]), top_level_coment)
     return [top_level_coment] + replies
 
 def create_root_node(video_sumarized, video_info):
@@ -167,7 +195,8 @@ def main():
     comments = get_video_comments(id_video)
     root = create_root_node(video_sumarized, video_info)
     node_list = [root] + create_comment_nodes(comments["items"], root)
-    
+    for node in node_list:
+        print(str(node) + "\n")
 
 if __name__ == "__main__":
     main()
