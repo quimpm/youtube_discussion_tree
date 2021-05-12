@@ -2,8 +2,10 @@ import requests
 import sys
 import re
 from collections import namedtuple
+from stanfordcorenlp import StanfordCoreNLP
 import xml.etree.ElementTree as ET
 from youtube_transcript_api import YouTubeTranscriptApi
+import argparse
 
 Node = namedtuple("Node", ["id", "author_name", "author_id", "text", "likeCount", "parent"])
 
@@ -172,11 +174,13 @@ def create_top_level_comment_node(top_level_comment, parent):
 
 def create_comment_nodes(comment_threads, video_node):
     replies = []
-    for comment_thread in comment_threads:
+    for i,comment_thread in enumerate(comment_threads):
         top_level_coment = create_top_level_comment_node(comment_thread["snippet"]["topLevelComment"], video_node)
         if "replies" in comment_thread.keys():
-            replies += create_replies_nodes(reversed(comment_thread["replies"]["comments"]), top_level_coment)
-    return [top_level_coment] + replies
+            replies += [top_level_coment] + create_replies_nodes(reversed(comment_thread["replies"]["comments"]), top_level_coment)
+        else:
+            replies += [top_level_coment]
+    return replies
 
 def create_root_node(video_sumarized, video_info):
     return Node (
@@ -188,7 +192,7 @@ def create_root_node(video_sumarized, video_info):
             likeCount = video_info["items"][0]["statistics"]["likeCount"]
         )
 
-def create_argument(argument_list, node):
+def create_argument(argument_list, node, nlp_core):
     arg = ET.SubElement(argument_list, "arg")
     arg.text = node.text
     arg.set("author", node.author_name)
@@ -205,28 +209,31 @@ def create_pair(argument_pair, node, i):
         h = ET.SubElement(pair, "h")
         h.set("id", node.parent)
 
-def createXML(node_list):
+def createXML(node_list, nlp_core):
     root = ET.Element("entailment-corpus")
     root.set("num_edges", str(len(node_list)-1))
     root.set("num_nodes", str(len(node_list)))
     argument_lists = ET.SubElement(root, "argument-list")
     argument_pairs = ET.SubElement(root, "argument-pairs")
     for i,node in enumerate(node_list):
-        create_argument(argument_lists, node)
+        create_argument(argument_lists, node, nlp_core)
         create_pair(argument_pairs, node, i)
     tree = ET.ElementTree()
     tree._setroot(root)
     tree.write("output.xml")
 
 def main():
-    print("Put the id of the video of which you want to download the comments")
-    id_video = input()
-    video_sumarized = get_sumarization_of_video_transcription(id_video)
-    video_info = get_video_info(id_video)
-    comments = get_video_comments(id_video)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--vid', help="id of the youtube video")
+    parser.add_argument('--nlp_path', help="Path to the CoreNLP folder")
+    args = parser.parse_args()
+    nlp_core = StanfordCoreNLP(args.nlp_path)
+    video_sumarized = get_sumarization_of_video_transcription(args.vid)
+    video_info = get_video_info(args.vid)
+    comments = get_video_comments(args.vid)
     root = create_root_node(video_sumarized, video_info)
     node_list = [root] + create_comment_nodes(comments["items"], root)
-    createXML(node_list)
+    createXML(node_list, nlp_core)
 
 if __name__ == "__main__":
     main()
