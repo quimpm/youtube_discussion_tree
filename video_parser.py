@@ -1,11 +1,14 @@
 import requests
 import sys
 import re
+import json
 from collections import namedtuple
 from stanfordcorenlp import StanfordCoreNLP
 import xml.etree.ElementTree as ET
 from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api.formatters import TextFormatter
 import argparse
+from transformers import pipeline
 
 Node = namedtuple("Node", ["id", "author_name", "author_id", "text", "likeCount", "parent"])
 
@@ -13,8 +16,8 @@ youtube_api_comment_threads = "https://www.googleapis.com/youtube/v3/commentThre
 youtube_api_videos = "https://www.googleapis.com/youtube/v3/videos"
 youtube_apikey = "AIzaSyD-UjlHhqsZkhKKrDFp5PNaHyS6JHjLSUg"
 
-deepAI_apikey = "034ca4b8-4048-4f97-94f8-799dba1f25dc"
-deepAI_url = "https://api.deepai.org/api/summarization"
+HF_summarization_model_header = {"Authorization": "Bearer api_YOCSrViIWUiSxtFUsBjwQwoglNpRAjbAgS"}
+HF_summarization_model_url = "https://api-inference.huggingface.co/models/sshleifer/distilbart-cnn-12-6"
 
 class bcolors:
     HEADER = '\033[95m'
@@ -47,18 +50,29 @@ def get_video_comments(id_video):
     return requests.get(youtube_api_comment_threads, params = params).json()
 
 def sumarize_video(video_transcription):
-    return requests.post(
-                            deepAI_url, 
-                            data = {
-                                "text" : video_transcription
-                            },
-                            headers={'api-key': deepAI_apikey}
-                        ).json()
+    summarizer = pipeline("summarization")
+    return summarizer(video_transcription, max_length=512, min_length=256, do_sample=False, truncation=True)[0]["summary_text"]
+
+def get_video_transcription(video_id):
+    transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
+    if not transcript_list :
+        sys.exit("No transcriptions found")
+    else:
+        land_code_list = list(map(lambda x : x.language_code, transcript_list))
+        if 'en' in land_code_list:
+            english_transcript = transcript_list.find_transcript(['en'])
+        else:
+            transcriptables_to_english = list(filter( lambda x : x.is_translatable and 'en' in list(map(lambda x : x["language_code"], x.translation_languages)), transcript_list))
+            english_transcript = transcriptables_to_english[0].translate('en')
+    english_transcript = english_transcript.fetch()
+    formatter = TextFormatter()
+    return formatter.format_transcript(english_transcript)
+
 
 def get_sumarization_of_video_transcription(video_id):
-    video_transcription = ' '.join(list(map(lambda x : x["text"], YouTubeTranscriptApi.get_transcript(video_id, languages=['en']))))
+    video_transcription = get_video_transcription(video_id)
     video_content = sumarize_video(video_transcription)
-    return video_content["output"]
+    return video_content
 
 def get_possible_names(match_string):
     if not match_string:
@@ -126,7 +140,7 @@ def create_deep_replie_node(name, replie, contributions):
         else:
             return conflict_more_than_one_contribution(name, replie, contributions)
     else:
-            return conflict_users_with_same_username_in_thread(name, replie, contributions)
+        return conflict_users_with_same_username_in_thread(name, replie, contributions)
 
 def create_normal_replie_node(parent, replie):
     return  Node(
@@ -192,13 +206,33 @@ def create_root_node(video_sumarized, video_info):
             likeCount = video_info["items"][0]["statistics"]["likeCount"]
         )
 
-def create_argument(argument_list, node, nlp_core):
+
+def do_sentiment_analysis(node, corenlp_path):
+    try:
+        nlp = StanfordCoreNLP(corenlp_path, lang =  'en')
+    except:
+        sys.exit('ERROR: Stanford Core NLP software not found at '+corenlp_path)
+    props = {'annotators': 'tokenize, ssplit, parse, sentiment', 'pipelineLanguage':'en', 'outputFormat': 'json', 'ssplit.isOneSentence': 'true'}
+    re_prob = re.compile('\|sentiment=[0-4]\|prob=(\d*\.\d+|\d)')
+    output = nlp.annotate(node.text, properties = props)
+    output = json.loads(output, strict = True)
+    return {
+        'sentiment': output['sentences'][0]['sentiment'],
+        'sentiment_value': output['sentences'][0]['sentimentValue'],
+        'sentiment_distribution': str(output['sentences'][0]['sentimentDistribution']),
+        'sentiment_prob': re_prob.search(output['sentences'][0]['sentimentTree']).group(1)
+    }
+
+def create_argument(argument_list, node, corenlp_path):
     arg = ET.SubElement(argument_list, "arg")
     arg.text = node.text
     arg.set("author", node.author_name)
     arg.set("author_id", node.author_id)
     arg.set("id", node.id)
     arg.set("score", str(node.likeCount))
+    sentiment_analysis = do_sentiment_analysis(node, corenlp_path)
+    for key,value in sentiment_analysis.items():
+        arg.set(key, value)
 
 def create_pair(argument_pair, node, i):
     if node.parent:
@@ -209,14 +243,14 @@ def create_pair(argument_pair, node, i):
         h = ET.SubElement(pair, "h")
         h.set("id", node.parent)
 
-def createXML(node_list, nlp_core):
+def createXML(node_list, corenlp_path):
     root = ET.Element("entailment-corpus")
     root.set("num_edges", str(len(node_list)-1))
     root.set("num_nodes", str(len(node_list)))
     argument_lists = ET.SubElement(root, "argument-list")
     argument_pairs = ET.SubElement(root, "argument-pairs")
     for i,node in enumerate(node_list):
-        create_argument(argument_lists, node, nlp_core)
+        create_argument(argument_lists, node, corenlp_path)
         create_pair(argument_pairs, node, i)
     tree = ET.ElementTree()
     tree._setroot(root)
@@ -225,15 +259,14 @@ def createXML(node_list, nlp_core):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--vid', help="id of the youtube video")
-    parser.add_argument('--nlp_path', help="Path to the CoreNLP folder")
+    parser.add_argument('--corenlp_path', help="Path to the CoreNLP folder")
     args = parser.parse_args()
-    nlp_core = StanfordCoreNLP(args.nlp_path)
     video_sumarized = get_sumarization_of_video_transcription(args.vid)
     video_info = get_video_info(args.vid)
     comments = get_video_comments(args.vid)
     root = create_root_node(video_sumarized, video_info)
     node_list = [root] + create_comment_nodes(comments["items"], root)
-    createXML(node_list, nlp_core)
+    createXML(node_list, args.corenlp_path)
 
 if __name__ == "__main__":
     main()

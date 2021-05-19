@@ -6,3 +6,20 @@
     - Per més endavant. Buscar alguna eina per a ficar al panell d'angular que va fer el guillem el graf de la combersa.
 - chrome extension
     · Mirar si interaccionant amb els endpoints de l'api es podria arribar a conseguir.
+
+
+INVESTIGAR SOBRE SEMANTIC SIMILARITY
+
+Es pot probar d'entrenar un Model BERT d'anàlisi de similitut sintàctica que resolgui els conflictes de a quin comentari es refereix la resposta en una discusió.
+
+Hi ha alguns models a keras.
+
+LINKS:
+
+- https://towardsdatascience.com/deep-learning-for-semantic-text-matching-d4df6c2cf4c5
+- https://pypi.org/project/semantic-text-similarity/
+- https://towardsdatascience.com/how-to-rank-text-content-by-semantic-similarity-4d2419a84c32
+- https://towardsdatascience.com/bert-explained-state-of-the-art-language-model-for-nlp-f8b21a9b6270
+- https://keras.io/examples/nlp/semantic_similarity_with_bert/
+
+E
