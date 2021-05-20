@@ -12,12 +12,7 @@ from transformers import pipeline
 
 Node = namedtuple("Node", ["id", "author_name", "author_id", "text", "likeCount", "parent"])
 
-youtube_api_comment_threads = "https://www.googleapis.com/youtube/v3/commentThreads"
-youtube_api_videos = "https://www.googleapis.com/youtube/v3/videos"
 youtube_apikey = "AIzaSyD-UjlHhqsZkhKKrDFp5PNaHyS6JHjLSUg"
-
-HF_summarization_model_header = {"Authorization": "Bearer api_YOCSrViIWUiSxtFUsBjwQwoglNpRAjbAgS"}
-HF_summarization_model_url = "https://api-inference.huggingface.co/models/sshleifer/distilbart-cnn-12-6"
 
 class bcolors:
     HEADER = '\033[95m'
@@ -32,6 +27,7 @@ class bcolors:
 
 
 def get_video_info(id_video):
+    youtube_api_videos = "https://www.googleapis.com/youtube/v3/videos"
     params = {
         "key" : youtube_apikey,
         "part" : ["snippet", "statistics"],
@@ -40,6 +36,7 @@ def get_video_info(id_video):
     return requests.get(youtube_api_videos, params = params).json()
 
 def get_video_comments(id_video):
+    youtube_api_comment_threads = "https://www.googleapis.com/youtube/v3/commentThreads"
     params = {
         "key" : youtube_apikey,
         "part" : ["snippet", "replies"],
@@ -86,16 +83,21 @@ def find_name_in_thread(possible_names, contributions):
             return name
     return []
 
-def conflict_more_than_one_contribution(name, replie, contributions):
+def conflict_more_than_one_contribution(name, replie, contributions, id_user):
     print("\n" + bcolors.WARNING + "A CONFLICT was found:" + bcolors.ENDC)
     print(bcolors.OKGREEN + "To which of this comments:" + bcolors.ENDC)
-    for i, comment in enumerate(contributions[name][list(contributions[name].keys())[0]]):
+    for i, comment in enumerate(contributions[name][id_user]):
         print("\n" + bcolors.BOLD + str(i) + bcolors.ENDC + bcolors.OKCYAN + " - "+comment.text + bcolors.ENDC)
     print("\n" + bcolors.OKGREEN + "Belongs the replie:" + bcolors.ENDC)
     print(bcolors.OKCYAN + "- "+replie["snippet"]["textOriginal"] + bcolors.ENDC)
-    number = input("\n" + bcolors.OKGREEN + "Enter the number of the comment: " + bcolors.ENDC)
+    number = -1
+    while number not in range(len(contributions[name][id_user])):
+        try:
+            number = int(input("\n" + bcolors.OKGREEN + "Enter the number of the comment: " + bcolors.ENDC))
+        except:
+            number = -1
     return Node(
-                parent = contributions[name][list(contributions[name].keys())[0]][int(number)].id,
+                parent = contributions[name][id_user][number].id,
                 id = replie["id"],
                 author_id = replie["snippet"]["authorChannelId"]["value"],
                 author_name = replie["snippet"]["authorDisplayName"],
@@ -104,33 +106,28 @@ def conflict_more_than_one_contribution(name, replie, contributions):
             )
 
 def conflict_users_with_same_username_in_thread(name, replie, contributions):
-    print("\n" + bcolors.WARNING + "A CONFLICT was found:" + bcolors.ENDC)
-    print(bcolors.OKGREEN + "Found some users with same username in a comment thread: "+ name + bcolors.ENDC)
-    print(bcolors.OKGREEN + "To which of this comments of the users with same username:" + bcolors.ENDC)
-    for id_user in contributions[name].keys():
-        if id_user != replie["snippet"]["authorChannelId"]["value"]:
-            print("\n- "+id_user)
-            for i,comment in enumerate(contributions[name][id_user]):
-                print(bcolors.BOLD + str(i) + bcolors.ENDC + bcolors.OKCYAN + " - "+comment.text + bcolors.ENDC + "\n")
-    print("\n" + bcolors.OKGREEN + "It belongs the replie:" + bcolors.ENDC)
-    print(bcolors.OKCYAN + "- "+replie["snippet"]["textOriginal"] + bcolors.ENDC)
-    id_user = input("\n" + bcolors.OKGREEN + "Enter the id of the user: " + bcolors.ENDC)
-    comment = input("\n" + bcolors.OKGREEN + "Enter the number of the comment: " + bcolors.ENDC)
-    return Node(
-                parent = contributions[name][id_user][int(comment)].id,
-                id = replie["id"],
-                author_id = replie["snippet"]["authorChannelId"]["value"],
-                author_name = replie["snippet"]["authorDisplayName"],
-                text = replie["snippet"]["textOriginal"],
-                likeCount = replie["snippet"]["likeCount"]
-            )
+    if replie["snippet"]["authorChannelId"]["value"] in contributions[name].keys() and len(contributions[name].keys()) == 2:
+        return create_deep_replie_node(name, replie, contributions, list(filter(lambda x : x!=replie["snippet"]["authorChannelId"]["value"], contributions[name].keys()))[0])
+    else: 
+        print("\n" + bcolors.WARNING + "A CONFLICT was found:" + bcolors.ENDC)
+        print(bcolors.OKGREEN + "Found some users with same username in a comment thread: "+ name + bcolors.ENDC)
+        print(bcolors.OKGREEN + "To which of this users it belongs the comment that the reply refers to:" + bcolors.ENDC)
+        for id_user in contributions[name].keys():
+            if id_user != replie["snippet"]["authorChannelId"]["value"]:
+                print("\n- "+id_user)
+                for i,comment in enumerate(contributions[name][id_user]):
+                    print(bcolors.BOLD + str(i) + bcolors.ENDC + bcolors.OKCYAN + " - "+comment.text + bcolors.ENDC + "\n")
+        print("\n" + bcolors.OKGREEN + "It belongs the replie:" + bcolors.ENDC)
+        print(bcolors.OKCYAN + "- "+replie["snippet"]["textOriginal"] + bcolors.ENDC)
+        id_user = ""
+        while id_user not in contributions[name].keys():
+            id_user = input("\n" + bcolors.OKGREEN + "Enter the id of the user: " + bcolors.ENDC)
+        return create_deep_replie_node(name, replie, contributions, id_user)
 
-def create_deep_replie_node(name, replie, contributions):
-    id_users = contributions[name].keys()
-    if len(id_users) == 1:
-        if len(contributions[name][list(contributions[name].keys())[0]]) == 1:
+def create_deep_replie_node(name, replie, contributions, id_user):
+        if len(contributions[name][id_user]) == 1:
             return Node(
-                    parent = contributions[name][list(contributions[name].keys())[0]][0].id,
+                    parent = contributions[name][id_user][0].id,
                     id = replie["id"],
                     author_id = replie["snippet"]["authorChannelId"]["value"],
                     author_name = replie["snippet"]["authorDisplayName"],
@@ -138,9 +135,7 @@ def create_deep_replie_node(name, replie, contributions):
                     likeCount = replie["snippet"]["likeCount"]
                 )
         else:
-            return conflict_more_than_one_contribution(name, replie, contributions)
-    else:
-        return conflict_users_with_same_username_in_thread(name, replie, contributions)
+            return conflict_more_than_one_contribution(name, replie, contributions, id_user)
 
 def create_normal_replie_node(parent, replie):
     return  Node(
@@ -163,7 +158,11 @@ def create_replies_nodes(replies, parent):
             if not name:
                 node = create_normal_replie_node(parent, replie)
             else:
-                node = create_deep_replie_node(name, replie, contributions)
+                id_users = contributions[name].keys()
+                if len(id_users) == 1:
+                    node = create_deep_replie_node(name, replie, contributions, list(contributions[name].keys())[0])
+                else: 
+                    node = conflict_users_with_same_username_in_thread(name, replie, contributions)
         else:
             node =  create_normal_replie_node(parent, replie)
         nodes.append(node)
@@ -206,33 +205,25 @@ def create_root_node(video_sumarized, video_info):
             likeCount = video_info["items"][0]["statistics"]["likeCount"]
         )
 
-
-def do_sentiment_analysis(node, corenlp_path):
-    try:
-        nlp = StanfordCoreNLP(corenlp_path, lang =  'en')
-    except:
-        sys.exit('ERROR: Stanford Core NLP software not found at '+corenlp_path)
-    props = {'annotators': 'tokenize, ssplit, parse, sentiment', 'pipelineLanguage':'en', 'outputFormat': 'json', 'ssplit.isOneSentence': 'true'}
-    re_prob = re.compile('\|sentiment=[0-4]\|prob=(\d*\.\d+|\d)')
-    output = nlp.annotate(node.text, properties = props)
-    output = json.loads(output, strict = True)
+def do_sentiment_analysis(node):
+    sentiment_analysis = pipeline("sentiment-analysis")
+    result = sentiment_analysis(node.text)[0]
     return {
-        'sentiment': output['sentences'][0]['sentiment'],
-        'sentiment_value': output['sentences'][0]['sentimentValue'],
-        'sentiment_distribution': str(output['sentences'][0]['sentimentDistribution']),
-        'sentiment_prob': re_prob.search(output['sentences'][0]['sentimentTree']).group(1)
+        "sentiment" : result["label"],
+        "sentiment_prob" : round(result["score"], 4)
     }
 
-def create_argument(argument_list, node, corenlp_path):
+def create_argument(argument_list, node, sa_flag):
     arg = ET.SubElement(argument_list, "arg")
     arg.text = node.text
     arg.set("author", node.author_name)
     arg.set("author_id", node.author_id)
     arg.set("id", node.id)
     arg.set("score", str(node.likeCount))
-    sentiment_analysis = do_sentiment_analysis(node, corenlp_path)
-    for key,value in sentiment_analysis.items():
-        arg.set(key, value)
+    if sa_flag:
+        sentiment_analysis = do_sentiment_analysis(node)
+        for key,value in sentiment_analysis.items():
+            arg.set(key, str(value))
 
 def create_pair(argument_pair, node, i):
     if node.parent:
@@ -243,14 +234,14 @@ def create_pair(argument_pair, node, i):
         h = ET.SubElement(pair, "h")
         h.set("id", node.parent)
 
-def createXML(node_list, corenlp_path):
+def createXML(node_list, sa_flag):
     root = ET.Element("entailment-corpus")
     root.set("num_edges", str(len(node_list)-1))
     root.set("num_nodes", str(len(node_list)))
     argument_lists = ET.SubElement(root, "argument-list")
     argument_pairs = ET.SubElement(root, "argument-pairs")
     for i,node in enumerate(node_list):
-        create_argument(argument_lists, node, corenlp_path)
+        create_argument(argument_lists, node, sa_flag)
         create_pair(argument_pairs, node, i)
     tree = ET.ElementTree()
     tree._setroot(root)
@@ -259,14 +250,19 @@ def createXML(node_list, corenlp_path):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--vid', help="id of the youtube video")
-    parser.add_argument('--corenlp_path', help="Path to the CoreNLP folder")
+    parser.add_argument('--sa', help="Flag for sentiment analysis", action='store_true')
     args = parser.parse_args()
+    print(bcolors.HEADER+"Transcribing and Summarizing the content of the video"+bcolors.ENDC)
     video_sumarized = get_sumarization_of_video_transcription(args.vid)
+    print(bcolors.HEADER+"Getting other video Info"+bcolors.ENDC)
     video_info = get_video_info(args.vid)
+    print(bcolors.HEADER+"Getting comments of the video"+bcolors.ENDC)
     comments = get_video_comments(args.vid)
+    print(bcolors.HEADER+"Creating Comment Tree"+bcolors.ENDC)
     root = create_root_node(video_sumarized, video_info)
     node_list = [root] + create_comment_nodes(comments["items"], root)
-    createXML(node_list, args.corenlp_path)
+    print(bcolors.HEADER+"Parsing Tree to XML"+ ( " with Sentiment Analysis" if args.sa else "") +bcolors.ENDC)
+    createXML(node_list, args.sa)
 
 if __name__ == "__main__":
     main()
