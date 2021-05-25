@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2020.10.27)  25 MAY 2021 11:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2020.10.27)  25 MAY 2021 13:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**intro.tex
-(./intro.tex
+**descripcio_problema.tex
+(./descripcio_problema.tex
 LaTeX2e <2020-02-02> patch level 5
 L3 programming layer <2020-07-17>
 (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
@@ -11,8 +11,8 @@ File: l3backend-pdfmode.def 2020-06-29 L3 backend support: PDF mode
 \l__kernel_color_stack_int=\count168
 \l__pdf_internal_box=\box45
 )
-(./intro.aux)
-\openout1 = `intro.aux'.
+No file descripcio_problema.aux.
+\openout1 = `descripcio_problema.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 1.
 LaTeX Font Info:    ... okay on input line 1.
@@ -29,7 +29,6 @@ LaTeX Font Info:    ... okay on input line 1.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 1.
 LaTeX Font Info:    ... okay on input line 1.
 
-
 ! LaTeX Error: The font size command \normalsize is not defined:
                there is probably something wrong with the class file.
 
@@ -44,12 +43,17 @@ Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--26
+Underfull \hbox (badness 10000) in paragraph at lines 2--22
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--26
+Underfull \hbox (badness 10000) in paragraph at lines 2--22
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2--22
 
  []
 
@@ -61,24 +65,25 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.26 \end{document}
+l.27 \end{document}
                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./intro.aux) ) 
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+(./descripcio_problema.aux) ) 
 Here is how much of TeX's memory you used:
  174 strings out of 482811
- 4218 string characters out of 5955739
+ 4326 string characters out of 5955739
  239630 words of memory out of 5000000
- 15617 multiletter control sequences out of 15000+600000
+ 15619 multiletter control sequences out of 15000+600000
  535088 words of font info for 29 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 19i,4n,25p,126b,66s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
-Output written on intro.pdf (1 page, 18829 bytes).
+ 19i,4n,25p,182b,66s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr10.pfb>
+Output written on descripcio_problema.pdf (1 page, 20759 bytes).
 PDF statistics:
  12 PDF objects out of 1000 (max. 8388607)
  7 compressed objects within 1 object stream

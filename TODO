@@ -1,11 +1,12 @@
 - Vigilar cuota
     · Notificar quota al iniciar script or smth
-- Millorar control de conflictes
 - Millorar Diseny en general, intentar liftejar-ho tot una mica (hi ha massa condicional)
-- printar graf eina guillem
+- Printar graf eina guillem
     - Per més endavant. Buscar alguna eina per a ficar al panell d'angular que va fer el guillem el graf de la combersa.
-- chrome extension
-    · Mirar si interaccionant amb els endpoints de l'api es podria arribar a conseguir.
+- Dividir Responsabilitats script
+- Printar més informació en els conflictes.
+- Resolució de conflictes mitjançant Algoritme ML Text Similarity
+- Buscar un model amb un altre tipus d'analisi de sentiment a the HuggingFace. Distribució de probabilitats [VeryNegative, Negative, Neutral, Positive, Very Positive]
 
 
 INVESTIGAR SOBRE SEMANTIC SIMILARITY
@@ -22,4 +23,7 @@ LINKS:
 - https://towardsdatascience.com/bert-explained-state-of-the-art-language-model-for-nlp-f8b21a9b6270
 - https://keras.io/examples/nlp/semantic_similarity_with_bert/
 
-E
+Algoritme ML Text Similarity - BO
+
+- https://towardsdatascience.com/find-text-similarities-with-your-own-machine-learning-algorithm-7ceda78f9710
+- https://github.com/guenter-r/knn/blob/master/tf_idf.py

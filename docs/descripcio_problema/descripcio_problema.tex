@@ -1,3 +1,26 @@
 \begin{document}
-   
+Des del departament de GREIA de l'Universitat de Lleida, s'està treballant 
+en una eina d'anàlisis de discusions que es donen en xarxes socials com Twitter, Reddit... Aquest treball consisteix en desenvolupar un modul més 
+d'aquest projecte, una eina capaç de constriur un arbre conversacional 
+a partir de la discusió que es forma en els comentaris d'un vídeo de Youtube.\\\\
+%
+Per tal de realitzar-ho, en primera instancia, s'haurà d'aconseguir
+informació i context sobre el contingut del vídeo per a formar el node 
+arrel de l'arbre i seguidament dels comentaris per tal d'anar formant 
+les branques de conversa. Posteriorment, un cop construit l'arbre, aquest
+s'haura de serialitzar en un fitxer XML amb un format determinat per a que
+l'eina d'analisi de discusions ho pugui entendre.
+Aquest format consisteix en una component on es defineixen per una banda, 
+els nodes del graf arbre i per altra, les arestes que els uneixen.\\\\
+%
+Finalment, s'integrarà aquesta eina a una aplicació web desenvolupada 
+per a fer l'interacció entre aquesta i l'analitzador de discusions
+de forma més interactiva i còmoda.\\\\
+%
+S'ha decidit estructurat el projecte en tres fases: 
+\begin{itemize}
+\item Una primera fase de recollida de dades: context del video, likes, comentaris...
+\item Una segona de transformació de les dades: construcció de l'arbre i parsejat a XML.
+\item I per últim, una tercerpart d'integració amb l'aplicació web i l'analitzador de discusions.
+\end{itemize}
 \end{document}
