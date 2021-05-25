@@ -27,3 +27,21 @@ Algoritme ML Text Similarity - BO
 
 - https://towardsdatascience.com/find-text-similarities-with-your-own-machine-learning-algorithm-7ceda78f9710
 - https://github.com/guenter-r/knn/blob/master/tf_idf.py
+
+Refactor:
+
+1. Creació d'una factoria per a gestionar els tipus de conflictes
+    - MultipleContributionsConflict
+        * AutoaticMultipleContributionsConflict
+        * InteractiveMultipleContributionsConflict
+    - SameUsernameConflict
+        * AutomaticSameUsernameConflict
+        * InteractiveSameUsernameConflict
+2. Class YoutubeCommentTree:
+    - Aquesta classe contindrà tots el mètodes de creació dels Nodes
+3. Class YoutubeHttp:
+    - Clase Per a fer de fassana amb els serveis de la API de Youtube.
+4. Class TextSimilarity:
+    - Algoritme ML per a resolució de conflictes Automatics
+5. YoutubeCommentTree2XML
+    - Classe per a passar un YoutubeCommentTree XML 

@@ -22,9 +22,10 @@
 \contentsline {subsubsection}{\numberline {5.3.1}Solució Interactiva}{4}{subsubsection.5.3.1}%
 \contentsline {subsubsection}{\numberline {5.3.2}Solució Automàtica}{5}{subsubsection.5.3.2}%
 \contentsline {subsection}{\numberline {5.4}Construcció XML}{5}{subsection.5.4}%
-\contentsline {section}{\numberline {6}Fase 3: Integració}{5}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Descripció}{5}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Eina Web Interactiva}{5}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}Eina d'anàlisi de Discusions}{5}{subsection.6.3}%
-\contentsline {section}{\numberline {7}Conclusions}{5}{section.7}%
-\contentsline {section}{\numberline {8}Bibliography}{5}{section.8}%
+\contentsline {section}{\numberline {6}Tests}{5}{section.6}%
+\contentsline {section}{\numberline {7}Fase 3: Integració}{5}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Descripció}{5}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Eina Web Interactiva}{5}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Eina d'anàlisi de Discusions}{5}{subsection.7.3}%
+\contentsline {section}{\numberline {8}Conclusions}{5}{section.8}%
+\contentsline {section}{\numberline {9}Bibliography}{5}{section.9}%

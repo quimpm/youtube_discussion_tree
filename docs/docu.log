@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2020.10.27)  25 MAY 2021 13:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2020.10.27)  25 MAY 2021 16:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -926,36 +926,52 @@ File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )) [2]
 (./recollida_de_dades/recollida_de_dades.tex)
 (./transformacio_de_les_dades/transformacio_de_les_dades.tex [3])
-(./implementacio/implementacio.tex [4])
+(./implementacio/implementacio.tex [4]) (./tests/tests.tex)
 (./integracio_eina_analisi/integracio_eina_analisi.tex)
 (./conclusions/conclusions.tex) (./bibliografia/bibliografia.tex) [5]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 105.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 105.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 107.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 107.
 
 (./docu.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 105.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 105.
-Package rerunfilecheck Info: File `docu.out' has not changed.
-(rerunfilecheck)             Checksum: 515FE5038AA93751CB5647416593E03F;2037.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 105.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 107.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 107.
+
+
+Package rerunfilecheck Warning: File `docu.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `docu.out':
+(rerunfilecheck)             Before: 515FE5038AA93751CB5647416593E03F;2037
+(rerunfilecheck)             After:  50472710BAC81714D22267D9D2E24704;2078.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 107.
  ) 
 Here is how much of TeX's memory you used:
- 21980 strings out of 482811
- 448001 string characters out of 5955739
+ 21990 strings out of 482811
+ 448122 string characters out of 5955739
  697824 words of memory out of 5000000
- 36778 multiletter control sequences out of 15000+600000
+ 36779 multiletter control sequences out of 15000+600000
  565405 words of font info for 52 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  60i,6n,80p,403b,406s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/share/texmf/fonts/enc/d
-vips/lm/lm-rm.enc}</usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/shar
-e/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/l
-m/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf
-/fonts/type1/public/lm/lmr17.pfb>
-Output written on docu.pdf (8 pages, 150208 bytes).
+pdfTeX warning (dest): name{subsection.6.3} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.6.2} has been referenced but does not ex
+ist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.6.1} has been referenced but does not ex
+ist, replaced by a fixed one
+
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/share/texmf/fonts/enc/dvi
+ps/lm/lm-rm.enc}</usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/
+texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/
+lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/f
+onts/type1/public/lm/lmr17.pfb>
+Output written on docu.pdf (8 pages, 150423 bytes).
 PDF statistics:
- 232 PDF objects out of 1000 (max. 8388607)
- 214 compressed objects within 3 object streams
- 39 named destinations out of 1000 (max. 500000)
+ 237 PDF objects out of 1000 (max. 8388607)
+ 219 compressed objects within 3 object streams
+ 43 named destinations out of 1000 (max. 500000)
  253 words of extra memory for PDF output out of 10000 (max. 10000000)
 
