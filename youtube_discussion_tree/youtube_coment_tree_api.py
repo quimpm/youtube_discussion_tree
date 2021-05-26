@@ -1,4 +1,3 @@
-from .http import *
 import re
 from .conflicts import *
 from .utils import Node

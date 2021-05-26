@@ -45,3 +45,24 @@ Refactor:
     - Algoritme ML per a resolució de conflictes Automatics
 5. YoutubeCommentTree2XML
     - Classe per a passar un YoutubeCommentTree XML 
+
+
+OBSERVACIONS:
+- Canviar l'estructura d'arbre d'una llista de nodes a un yeld.
+- Tipar-ho tot
+- Enum en canvis de "auto" i "inter"
+- Requeriments de python3.7 cap amunt clase Node pot ser -> DTO
+    ```
+    import dataclasses as dto
+    @dto.dataclass
+    class Node:
+        id: int
+        author_name: str
+        author_id: int
+        text: str
+        like_count: int
+        parent_id: int
+    ```
+- Fer Callables a les funcions de conflictes
+- replie = reply
+- https://typer.tiangolo.com/ per a fer el programa per terminal
