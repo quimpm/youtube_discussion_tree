@@ -1,4 +1,4 @@
-import http
+from .http import *
 import re
 from .conflicts import *
 from .utils import Node
@@ -9,7 +9,7 @@ class YoutubeDiscusionTreeAPI():
     def __init__(self, api_key):
         self.api_key = api_key
 
-    def generate_tree(self, video_id, mode = "iter"):
+    def generate_tree(self, video_id, mode = "inter"):
         video_content = get_sumarization_of_video_transcription(video_id)
         video_info = get_video_info(video_id, self.api_key)
         comments = get_video_comments(video_id, self.api_key)["items"]
@@ -47,9 +47,9 @@ class YoutubeCommentTree():
 
     def __create_comment_nodes(self, comment_threads, root, mode):
         for i,comment_thread in enumerate(comment_threads):
-            self.__new_node(comment_thread["snippet"]["topLevelComment"], root.id)
+            self.nodes.append(self.__new_node(comment_thread["snippet"]["topLevelComment"], root.id))
             if "replies" in comment_thread.keys():
-                self.__create_replies_nodes(reversed(comment_thread["replies"]["comments"]), self.nodes[-1].id, mode)
+                self.__create_replies_nodes(list(reversed(comment_thread["replies"]["comments"])), self.nodes[-1].id, mode)
 
     def __create_replies_nodes(self, replies, top_level_comment_id, mode):
         for replie in replies:  
@@ -63,12 +63,12 @@ class YoutubeCommentTree():
                     id_users = list(self.contributions[name].keys())
                     if len(id_users) != 1:
                         if replie["snippet"]["authorChannelId"]["value"] in self.contributions[name].keys() and len(self.contributions[name].keys()) == 2:
-                            return self.__create_deep_replie_node(name, replie, list(filter(lambda x : x!=replie["snippet"]["authorChannelId"]["value"], self.contributions[name].keys()))[0], mode)
+                            id_user = list(filter(lambda x : x!=replie["snippet"]["authorChannelId"]["value"], self.contributions[name].keys()))[0]
                         else:
                             id_user = self.conflict_same_username[mode](name, replie, self.contributions)
                     else: 
                         id_user = id_users[0]
-                    self.__create_deep_replie_node(name, replie, id_user, mode)
+                    curr_node = self.__create_deep_replie_node(name, replie, id_user, mode)
             else:
                 curr_node = self.__new_node(replie, top_level_comment_id)
             self.nodes.append(curr_node)

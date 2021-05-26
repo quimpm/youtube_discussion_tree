@@ -1,6 +1,7 @@
 from transformers import pipeline
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter
+import sys
 
 def sumarize_video(video_transcription):
     summarizer = pipeline("summarization")
