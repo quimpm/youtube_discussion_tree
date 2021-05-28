@@ -3,7 +3,6 @@
 - Millorar Diseny en general, intentar liftejar-ho tot una mica (hi ha massa condicional)
 - Printar graf eina guillem
     - Per més endavant. Buscar alguna eina per a ficar al panell d'angular que va fer el guillem el graf de la combersa.
-- Dividir Responsabilitats script
 - Printar més informació en els conflictes.
 - Resolució de conflictes mitjançant Algoritme ML Text Similarity
 - Buscar un model amb un altre tipus d'analisi de sentiment a the HuggingFace. Distribució de probabilitats [VeryNegative, Negative, Neutral, Positive, Very Positive]
@@ -28,27 +27,9 @@ Algoritme ML Text Similarity - BO
 - https://towardsdatascience.com/find-text-similarities-with-your-own-machine-learning-algorithm-7ceda78f9710
 - https://github.com/guenter-r/knn/blob/master/tf_idf.py
 
-Refactor:
-
-1. Creació d'una factoria per a gestionar els tipus de conflictes
-    - MultipleContributionsConflict
-        * AutoaticMultipleContributionsConflict
-        * InteractiveMultipleContributionsConflict
-    - SameUsernameConflict
-        * AutomaticSameUsernameConflict
-        * InteractiveSameUsernameConflict
-2. Class YoutubeCommentTree:
-    - Aquesta classe contindrà tots el mètodes de creació dels Nodes
-3. Class YoutubeHttp:
-    - Clase Per a fer de fassana amb els serveis de la API de Youtube.
-4. Class TextSimilarity:
-    - Algoritme ML per a resolució de conflictes Automatics
-5. YoutubeCommentTree2XML
-    - Classe per a passar un YoutubeCommentTree XML 
-
 
 OBSERVACIONS:
-- Canviar l'estructura d'arbre d'una llista de nodes a un yeld.
+- Canviar l'estructura d'arbre d'una llista de nodes a un yield.
 - Tipar-ho tot
 - Enum en canvis de "auto" i "inter"
 - Requeriments de python3.7 cap amunt clase Node pot ser -> DTO

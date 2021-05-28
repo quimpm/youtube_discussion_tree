@@ -1,13 +1,16 @@
 from transformers import pipeline
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter
+from ..utils import bcolors
 import sys
 
 def sumarize_video(video_transcription):
+    print(bcolors.HEADER+"Sumarizing video content"+bcolors.ENDC)
     summarizer = pipeline("summarization")
     return summarizer(video_transcription, max_length=512, min_length=256, do_sample=False, truncation=True)[0]["summary_text"]
 
 def get_video_transcription(video_id):
+    print(bcolors.HEADER+"Transcripting video content"+bcolors.ENDC)
     transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
     if not transcript_list :
         sys.exit("No transcriptions found")
@@ -23,7 +26,8 @@ def get_video_transcription(video_id):
     return formatter.format_transcript(english_transcript)
 
 
-def get_sumarization_of_video_transcription(video_id):
-    video_transcription = get_video_transcription(video_id)
-    video_content = sumarize_video(video_transcription)
+def get_sumarization_of_video_transcription(video_id, summarizattion):
+    video_content = get_video_transcription(video_id)
+    if summarizattion:
+        video_content = sumarize_video(video_content)
     return video_content

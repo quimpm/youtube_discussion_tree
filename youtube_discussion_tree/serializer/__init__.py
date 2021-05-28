@@ -1,1 +1,1 @@
-from .xml import XMLSerializer
+from .xml import serialize_tree

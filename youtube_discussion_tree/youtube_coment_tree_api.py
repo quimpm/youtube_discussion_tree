@@ -1,15 +1,19 @@
 import re
+from youtube_discussion_tree.serializer.xml import serialize_tree
 from .conflicts import *
-from .utils import Node
+from .utils import Node, bcolors
 from .http import *
+from .serializer import serialize_tree
+from .tree_viz import print_graph
 
 class YoutubeDiscusionTreeAPI():
 
     def __init__(self, api_key):
         self.api_key = api_key
 
-    def generate_tree(self, video_id, mode = "inter"):
-        video_content = get_sumarization_of_video_transcription(video_id)
+    def generate_tree(self, video_id, mode = "inter", summarization = False):
+        print(bcolors.HEADER+"Generating discusion tree"+bcolors.ENDC)
+        video_content = get_sumarization_of_video_transcription(video_id, summarization)
         video_info = get_video_info(video_id, self.api_key)
         comments = get_video_comments(video_id, self.api_key)["items"]
         return YoutubeCommentTree(video_id).make_tree(Node (
@@ -43,6 +47,12 @@ class YoutubeCommentTree():
         self.nodes.append(root)
         self.__create_comment_nodes(comments, root, mode)
         return self
+
+    def serialize(self, filename, sa=False):
+        serialize_tree(filename, self.nodes, sa)
+
+    def show(self):
+        print_graph(self.nodes)
 
     def __create_comment_nodes(self, comment_threads, root, mode):
         for i,comment_thread in enumerate(comment_threads):
