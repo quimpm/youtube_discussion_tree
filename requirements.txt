@@ -6,3 +6,4 @@ torch
 torchvision 
 torchaudio
 treelib
+nltk

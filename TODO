@@ -1,38 +1,15 @@
-- Vigilar cuota
+5. Vigilar cuota
     · Notificar quota al iniciar script or smth
-- Millorar Diseny en general, intentar liftejar-ho tot una mica (hi ha massa condicional)
-- Printar graf eina guillem
+7. Printar graf eina guillem
     - Per més endavant. Buscar alguna eina per a ficar al panell d'angular que va fer el guillem el graf de la combersa.
-- Printar més informació en els conflictes.
-- Resolució de conflictes mitjançant Algoritme ML Text Similarity
-- Buscar un model amb un altre tipus d'analisi de sentiment a the HuggingFace. Distribució de probabilitats [VeryNegative, Negative, Neutral, Positive, Very Positive]
-
-
-INVESTIGAR SOBRE SEMANTIC SIMILARITY
-
-Es pot probar d'entrenar un Model BERT d'anàlisi de similitut sintàctica que resolgui els conflictes de a quin comentari es refereix la resposta en una discusió.
-
-Hi ha alguns models a keras.
-
-LINKS:
-
-- https://towardsdatascience.com/deep-learning-for-semantic-text-matching-d4df6c2cf4c5
-- https://pypi.org/project/semantic-text-similarity/
-- https://towardsdatascience.com/how-to-rank-text-content-by-semantic-similarity-4d2419a84c32
-- https://towardsdatascience.com/bert-explained-state-of-the-art-language-model-for-nlp-f8b21a9b6270
-- https://keras.io/examples/nlp/semantic_similarity_with_bert/
-
-Algoritme ML Text Similarity - BO
-
-- https://towardsdatascience.com/find-text-similarities-with-your-own-machine-learning-algorithm-7ceda78f9710
-- https://github.com/guenter-r/knn/blob/master/tf_idf.py
-
-
-OBSERVACIONS:
-- Canviar l'estructura d'arbre d'una llista de nodes a un yield.
-- Tipar-ho tot
-- Enum en canvis de "auto" i "inter"
-- Requeriments de python3.7 cap amunt clase Node pot ser -> DTO
+3. Printar més informació en els conflictes.
+1. Resolució de conflictes mitjançant Algoritme ML Text Similarity
+2. Buscar un model amb un altre tipus d'analisi de sentiment a the HuggingFace. Distribució de probabilitats [VeryNegative, Negative, Neutral, Positive, Very Positive]
+4. Mirar: https://curiousily.com/posts/sentiment-analysis-with-bert-and-hugging-face-using-pytorch-and-python/
+5. Canviar l'estructura d'arbre d'una llista de nodes a un yield.
+5. Tipar-ho tot
+5. Enum en canvis de "auto" i "inter"
+6. Requeriments de python3.7 cap amunt clase Node pot ser -> DTO
     ```
     import dataclasses as dto
     @dto.dataclass
@@ -44,6 +21,14 @@ OBSERVACIONS:
         like_count: int
         parent_id: int
     ```
-- Fer Callables a les funcions de conflictes
-- replie = reply
-- https://typer.tiangolo.com/ per a fer el programa per terminal
+1. Fer Callables a les funcions de conflictes
+1. replie = reply
+5. https://typer.tiangolo.com/ per a fer el programa per terminal
+
+Algoritme ML Text Similarity - BO
+
+- https://towardsdatascience.com/find-text-similarities-with-your-own-machine-learning-algorithm-7ceda78f9710
+- https://github.com/guenter-r/knn/blob/master/tf_idf.py
+
+
+- https://towardsdatascience.com/tf-idf-for-document-ranking-from-scratch-in-python-on-real-world-dataset-796d339a4089

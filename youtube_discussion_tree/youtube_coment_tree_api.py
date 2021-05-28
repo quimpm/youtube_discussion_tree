@@ -11,8 +11,7 @@ class YoutubeDiscusionTreeAPI():
     def __init__(self, api_key):
         self.api_key = api_key
 
-    def generate_tree(self, video_id, mode = "inter", summarization = False):
-        print(bcolors.HEADER+"Generating discusion tree"+bcolors.ENDC)
+    def generate_tree(self, video_id, summarization = False):
         video_content = get_sumarization_of_video_transcription(video_id, summarization)
         video_info = get_video_info(video_id, self.api_key)
         comments = get_video_comments(video_id, self.api_key)["items"]
@@ -24,8 +23,7 @@ class YoutubeDiscusionTreeAPI():
                                                             likeCount = video_info["items"][0]["statistics"]["likeCount"],
                                                             parent_id = None
                                                         ),
-                                                        comments,
-                                                        mode
+                                                        comments
                                             )
 
 class YoutubeCommentTree():
@@ -34,18 +32,11 @@ class YoutubeCommentTree():
         self.video_id = video_id
         self.nodes = []
         self.contributions = {}
-        self.conflict_same_username = {
-            "auto" : automatic_same_username_conflict,
-            "inter" : interactive_same_username_conflict
-        }
-        self.conflict_multiple_contributions = {
-            "auto" : automatic_multiple_contributions_conflict,
-            "inter" : interactive_multiple_contributions_conflict
-        }
 
-    def make_tree(self, root, comments, mode):
+    def make_tree(self, root, comments):
+        print(bcolors.HEADER+"Generating discusion tree"+bcolors.ENDC)
         self.nodes.append(root)
-        self.__create_comment_nodes(comments, root, mode)
+        self.__create_comment_nodes(comments, root)
         return self
 
     def serialize(self, filename, sa=False):
@@ -54,13 +45,13 @@ class YoutubeCommentTree():
     def show(self):
         print_graph(self.nodes)
 
-    def __create_comment_nodes(self, comment_threads, root, mode):
+    def __create_comment_nodes(self, comment_threads, root):
         for i,comment_thread in enumerate(comment_threads):
             self.nodes.append(self.__new_node(comment_thread["snippet"]["topLevelComment"], root.id))
             if "replies" in comment_thread.keys():
-                self.__create_replies_nodes(list(reversed(comment_thread["replies"]["comments"])), self.nodes[-1].id, mode)
+                self.__create_replies_nodes(list(reversed(comment_thread["replies"]["comments"])), self.nodes[-1].id)
 
-    def __create_replies_nodes(self, replies, top_level_comment_id, mode):
+    def __create_replies_nodes(self, replies, top_level_comment_id):
         for replie in replies:  
             match = re.match('(@.{0,50} )', replie["snippet"]["textOriginal"])
             if match:
@@ -69,49 +60,38 @@ class YoutubeCommentTree():
                 if not name:
                    curr_node = self.__new_node(replie, top_level_comment_id)
                 else:
-                    id_users = list(self.contributions[name].keys())
-                    if len(id_users) != 1:
-                        if replie["snippet"]["authorChannelId"]["value"] in self.contributions[name].keys() and len(self.contributions[name].keys()) == 2:
-                            id_user = list(filter(lambda x : x!=replie["snippet"]["authorChannelId"]["value"], self.contributions[name].keys()))[0]
-                        else:
-                            id_user = self.conflict_same_username[mode](name, replie, self.contributions)
-                    else: 
-                        id_user = id_users[0]
-                    curr_node = self.__create_deep_replie_node(name, replie, id_user, mode)
+                    curr_node = self.__create_deep_replie_node(name, replie)
             else:
                 curr_node = self.__new_node(replie, top_level_comment_id)
             self.nodes.append(curr_node)
             self.__actualize_contributions(replie, curr_node)
 
-    def __create_deep_replie_node(self, name, replie, id_user, mode):
-        if len(self.contributions[name][id_user]) == 1:
+    def __create_deep_replie_node(self, name, replie):
+        if len(self.contributions[name]) == 1:
             return Node(
                     id = replie["id"],
                     author_id = replie["snippet"]["authorChannelId"]["value"],
                     author_name = replie["snippet"]["authorDisplayName"],
                     text = replie["snippet"]["textOriginal"],
                     likeCount = replie["snippet"]["likeCount"],
-                    parent_id = self.contributions[name][id_user][0].id
+                    parent_id = self.contributions[name][0].id
                 )
         else:
-            coment_index = self.conflict_multiple_contributions[mode](name, replie, self.contributions, id_user)
+            parent_id = conflict_multiple_contributions(replie, self.contributions[name])
             return Node(
                 id = replie["id"],
                 author_id = replie["snippet"]["authorChannelId"]["value"],
                 author_name = replie["snippet"]["authorDisplayName"],
                 text = replie["snippet"]["textOriginal"],
                 likeCount = replie["snippet"]["likeCount"],
-                parent_id = self.contributions[name][id_user][coment_index].id
+                parent_id = parent_id
             )
 
     def __actualize_contributions(self, replie, curr_node):
         if replie["snippet"]["authorDisplayName"] in self.contributions.keys():
-            if replie["snippet"]["authorChannelId"]["value"] in self.contributions[replie["snippet"]["authorDisplayName"]].keys():
-                self.contributions[replie["snippet"]["authorDisplayName"]][replie["snippet"]["authorChannelId"]["value"]].append(curr_node)
-            else: 
-                self.contributions[replie["snippet"]["authorDisplayName"]][replie["snippet"]["authorChannelId"]["value"]] = [curr_node]
+            self.contributions[replie["snippet"]["authorDisplayName"]].append(curr_node)
         else:
-            self.contributions[replie["snippet"]["authorDisplayName"]] = {replie["snippet"]["authorChannelId"]["value"] : [curr_node]}
+            self.contributions[replie["snippet"]["authorDisplayName"]] = [curr_node]
 
     def __new_node(self, top_level_comment, parent_id):
             return Node(
