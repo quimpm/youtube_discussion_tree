@@ -21,6 +21,7 @@
         parent_id: int
     ```
 1. replie = reply
+1. Liftejar Analisi de sentiment i que puguin ficar els camps que vulguin mitjançant una funció
 
 Algoritme ML Text Similarity - BO
 

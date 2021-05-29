@@ -1,7 +1,6 @@
 from ..utils import Node
 import nltk
 from nltk.corpus import stopwords
-nltk.download('stopwords')
 from nltk.stem import PorterStemmer
 from collections import Counter
 import numpy as np

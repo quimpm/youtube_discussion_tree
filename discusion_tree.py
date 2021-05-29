@@ -29,8 +29,17 @@ def interactive_conflict_resolution(replie, contributions):
 
 if __name__ == "__main__":
     api = YoutubeDiscusionTreeAPI("AIzaSyD-UjlHhqsZkhKKrDFp5PNaHyS6JHjLSUg")
-    #tree = api.generate_tree("LnX3B9oaKzw", summarization=True)
-    tree = api.generate_tree("9GHmfg54gg8", summarization=True, conflict_solving_algorithm=interactive_conflict_resolution)
+    """
+        Opcións de Generació:
+            * Summarització del contingut del video
+            * Triar algoritme (Pot ser pròpi o el per defecte de la llibreria)
+    """
+    tree = api.generate_tree("LnX3B9oaKzw", summarization=True)
+    #tree = api.generate_tree("9GHmfg54gg8", summarization=True, conflict_solving_algorithm=interactive_conflict_resolution)
     #tree = api.generate_tree("Os0EBHBeciM", summarization=True)
-    tree.serialize("output.xml")
+    """
+        Hi ha l'opció de fer l'anàlisi de sentiment i afegir-ho al arbre al serialitzar (Intentar liftejaro a una HOF per a que puguin ficar els valors que vulguin)
+    """
+    #tree.serialize("output.xml", True)
+    tree.serialize("output.xml", True)
     tree.show()
