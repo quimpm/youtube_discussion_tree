@@ -1,4 +1,5 @@
-from ..utils import bcolors
+from ..utils import bcolors, Node
+from ..text_similarity import guess_parent
 
 def interactive_multiple_contributions_conflict(replie, contributions):
     print("\n" + bcolors.WARNING + "A CONFLICT was found:" + bcolors.ENDC)
@@ -16,8 +17,15 @@ def interactive_multiple_contributions_conflict(replie, contributions):
             number = -1
     return contributions[number].id
 
-def automatic_multiple_contributions_conflict():
-    pass
+def automatic_multiple_contributions_conflict(replie, contributions):
+    return guess_parent(Node(
+        id = replie["id"],
+        author_id = replie["snippet"]["authorChannelId"]["value"],
+        author_name = replie["snippet"]["authorDisplayName"],
+        text = replie["snippet"]["textOriginal"],
+        likeCount = replie["snippet"]["likeCount"],
+        parent_id = None
+    ), contributions)
 
-def conflict_multiple_contributions(replie, contributions, algorithm = interactive_multiple_contributions_conflict):
+def conflict_multiple_contributions(replie, contributions, algorithm = automatic_multiple_contributions_conflict):
     return algorithm(replie, contributions)
