@@ -3,25 +3,9 @@
 7. Printar graf eina guillem
     - Per més endavant. Buscar alguna eina per a ficar al panell d'angular que va fer el guillem el graf de la combersa.
 3. Printar més informació en els conflictes.
-2. Buscar un model amb un altre tipus d'analisi de sentiment a the HuggingFace. Distribució de probabilitats [VeryNegative, Negative, Neutral, Positive, Very Positive]
-4. Mirar: https://curiousily.com/posts/sentiment-analysis-with-bert-and-hugging-face-using-pytorch-and-python/
+2. Buscar un model amb un altre tipus d'analisi de sentiment a the HuggingFace. Distribució de probabilitats [VeryNegative, Negative, Neutral, Positive, Very Positive]  Mirar: https://curiousily.com/posts/sentiment-analysis-with-bert-and-hugging-face-using-pytorch-and-python/
 5. Canviar l'estructura d'arbre d'una llista de nodes a un yield.
 5. Tipar-ho tot
-5. Enum en canvis de "auto" i "inter"
-6. Requeriments de python3.7 cap amunt clase Node pot ser -> DTO
-    ```
-    import dataclasses as dto
-    @dto.dataclass
-    class Node:
-        id: int
-        author_name: str
-        author_id: int
-        text: str
-        like_count: int
-        parent_id: int
-    ```
-1. replie = reply
-1. Liftejar Analisi de sentiment i que puguin ficar els camps que vulguin mitjançant una funció
 
 Algoritme ML Text Similarity - BO
 

@@ -70,7 +70,7 @@ def __cosine_similarity(query, D, total_vocab, doc_freq, N):
         d_cosines.append((d[0], __cosine_sim(query_vector, d)))
     return d_cosines
 
-def tf_idf_automatic_algorithm(replie, candidates):
+def tf_idf_automatic_algorithm(reply, candidates):
     clean_candidates = __preprocessing(candidates)
     doc_freq = __calculate_document_frequency(clean_candidates)
     total_vocab = [x for x in doc_freq.keys()]
@@ -81,5 +81,5 @@ def tf_idf_automatic_algorithm(replie, candidates):
     for i in tf_idf:
         ind = total_vocab.index(i[1])
         D[i[0]][ind] = tf_idf[i]
-    similarities = __cosine_similarity(replie, D, total_vocab, doc_freq, N)
+    similarities = __cosine_similarity(reply, D, total_vocab, doc_freq, N)
     return candidates[similarities.index(max(similarities))].id

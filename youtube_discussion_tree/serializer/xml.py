@@ -1,38 +1,29 @@
-from transformers import pipeline
 import xml.etree.ElementTree as ET
 
-def serialize_tree(output_file, nodes, sa):
+def serialize_tree(output_file, nodes, aditional_atributes):
     root = ET.Element("entailment-corpus")
     root.set("num_edges", str(len(nodes)-1))
     root.set("num_nodes", str(len(nodes)))
     argument_lists = ET.SubElement(root, "argument-list")
     argument_pairs = ET.SubElement(root, "argument-pairs")
     for i,node in enumerate(nodes):
-        create_argument(argument_lists, node, sa)
+        create_argument(argument_lists, node, aditional_atributes)
         create_pair(argument_pairs, node, i)
     tree = ET.ElementTree()
     tree._setroot(root)
     tree.write(output_file)
 
-def create_argument(argument_list, node, sa):
+def create_argument(argument_list, node, aditional_atributes):
     arg = ET.SubElement(argument_list, "arg")
     arg.text = node.text
     arg.set("author", node.author_name)
     arg.set("author_id", node.author_id)
     arg.set("id", node.id)
-    arg.set("score", str(node.likeCount))
-    if sa:
-        sentiment_analysis = do_sentiment_analysis(node)
-        for key,value in sentiment_analysis.items():
-            arg.set(key, str(value))
-
-def do_sentiment_analysis(node):
-    sentiment_analysis = pipeline("sentiment-analysis")
-    result = sentiment_analysis(node.text)[0]
-    return {
-        "sentiment" : result["label"],
-        "sentiment_prob" : round(result["score"], 4)
-    }
+    arg.set("score", str(node.like_count))
+    for atribute_func in aditional_atributes:
+        atributes = atribute_func(node)
+        for label,value in atributes.items():
+            arg.set(label, value)
 
 def create_pair(argument_pair, node, i):
     if node.parent_id:

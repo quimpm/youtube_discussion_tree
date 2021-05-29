@@ -1,9 +1,9 @@
-class Node():
-
-    def __init__(self, id, author_name, author_id, text, likeCount, parent_id):
-        self.id = id
-        self.author_name= author_name
-        self.author_id = author_id
-        self.text = text
-        self.likeCount = likeCount
-        self.parent_id = parent_id
+import dataclasses as dto
+@dto.dataclass
+class Node:
+    id: int
+    author_name: str
+    author_id: int
+    text: str
+    like_count: int
+    parent_id: int

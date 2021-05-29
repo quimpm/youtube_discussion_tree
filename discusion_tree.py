@@ -1,4 +1,5 @@
 from youtube_discussion_tree import YoutubeDiscusionTreeAPI, YoutubeCommentTree
+from transformers import pipeline
 
 class bcolors:
     HEADER = '\033[95m'
@@ -11,14 +12,14 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-def interactive_conflict_resolution(replie, contributions):
+def interactive_conflict_resolution(reply, contributions):
     print("\n" + bcolors.WARNING + "A CONFLICT was found:" + bcolors.ENDC)
     print(bcolors.OKGREEN + "To which of this comments:" + bcolors.ENDC)
     for i, comment in enumerate(contributions):
         print("\n" + bcolors.BOLD + str(i)+ " - " + bcolors.ENDC + bcolors.HEADER + "Author name: "+comment.author_name+", Author id: "+comment.author_id + bcolors.ENDC)
         print(bcolors.OKCYAN + comment.text + bcolors.ENDC)
-    print("\n" + bcolors.OKGREEN + "Belongs the replie:" + bcolors.ENDC)
-    print(bcolors.OKCYAN + "- "+replie.text + bcolors.ENDC)
+    print("\n" + bcolors.OKGREEN + "Belongs the reply:" + bcolors.ENDC)
+    print(bcolors.OKCYAN + "- "+reply.text + bcolors.ENDC)
     number = -1
     while number not in range(len(contributions)):
         try:
@@ -27,19 +28,16 @@ def interactive_conflict_resolution(replie, contributions):
             number = -1
     return contributions[number].id
 
+def do_sentiment_analysis(node):
+    sentiment_analysis = pipeline("sentiment-analysis")
+    result = sentiment_analysis(node.text)[0]
+    return {
+        "sentiment" : result["label"],
+        "sentiment_prob" : str(round(result["score"], 4))
+    }
+
 if __name__ == "__main__":
     api = YoutubeDiscusionTreeAPI("AIzaSyD-UjlHhqsZkhKKrDFp5PNaHyS6JHjLSUg")
-    """
-        Opcións de Generació:
-            * Summarització del contingut del video
-            * Triar algoritme (Pot ser pròpi o el per defecte de la llibreria)
-    """
     tree = api.generate_tree("LnX3B9oaKzw", summarization=True)
-    #tree = api.generate_tree("9GHmfg54gg8", summarization=True, conflict_solving_algorithm=interactive_conflict_resolution)
-    #tree = api.generate_tree("Os0EBHBeciM", summarization=True)
-    """
-        Hi ha l'opció de fer l'anàlisi de sentiment i afegir-ho al arbre al serialitzar (Intentar liftejaro a una HOF per a que puguin ficar els valors que vulguin)
-    """
-    #tree.serialize("output.xml", True)
-    tree.serialize("output.xml", True)
+    tree.serialize("output.xml")
     tree.show()
