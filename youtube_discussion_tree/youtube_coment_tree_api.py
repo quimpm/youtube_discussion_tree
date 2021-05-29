@@ -11,11 +11,11 @@ class YoutubeDiscusionTreeAPI():
     def __init__(self, api_key):
         self.api_key = api_key
 
-    def generate_tree(self, video_id, summarization = False):
+    def generate_tree(self, video_id, summarization = False, algorithm = tf_itf_automatic_algorithm):
         video_content = get_sumarization_of_video_transcription(video_id, summarization)
         video_info = get_video_info(video_id, self.api_key)
         comments = get_video_comments(video_id, self.api_key)["items"]
-        return YoutubeCommentTree(video_id).make_tree(Node (
+        return YoutubeCommentTree(video_id, algorithm).make_tree(Node (
                                                             id = video_info["items"][0]["id"],
                                                             author_name = video_info["items"][0]["snippet"]["channelTitle"],
                                                             author_id = video_info["items"][0]["snippet"]["channelId"],
@@ -28,8 +28,9 @@ class YoutubeDiscusionTreeAPI():
 
 class YoutubeCommentTree():
 
-    def __init__(self, video_id):
+    def __init__(self, video_id, algorithm):
         self.video_id = video_id
+        self.algorithm = algorithm
         self.nodes = []
         self.contributions = {}
 
@@ -77,7 +78,7 @@ class YoutubeCommentTree():
                     parent_id = self.contributions[name][0].id
                 )
         else:
-            parent_id = conflict_multiple_contributions(replie, self.contributions[name])
+            parent_id = self.algorithm(replie, self.contributions[name])
             return Node(
                 id = replie["id"],
                 author_id = replie["snippet"]["authorChannelId"]["value"],

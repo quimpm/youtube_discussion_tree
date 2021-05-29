@@ -24,7 +24,6 @@ def in_doc_freq(word, doc_freq):
         return 0
 
 def preprocessing(comments):
-    print(comments)
     new_comments = []
     tokenizer = nltk.RegexpTokenizer(r"\w+")
     stemmer = PorterStemmer()
@@ -83,9 +82,4 @@ def guess_parent(replie, candidates):
         ind = total_vocab.index(i[1])
         D[i[0]][ind] = tf_idf[i]
     similarities = cosine_similarity(replie, D, total_vocab, doc_freq, N)
-    print("New Conflict--------------------------------------------------------------")
-    print(str(similarities)+"\n")
-    for candidate in candidates:
-        print(candidate.id)
-        print(candidate.text+"\n")
     return candidates[similarities.index(max(similarities))].id
