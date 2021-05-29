@@ -3,7 +3,6 @@
 7. Printar graf eina guillem
     - Per més endavant. Buscar alguna eina per a ficar al panell d'angular que va fer el guillem el graf de la combersa.
 3. Printar més informació en els conflictes.
-1. Resolució de conflictes mitjançant Algoritme ML Text Similarity
 2. Buscar un model amb un altre tipus d'analisi de sentiment a the HuggingFace. Distribució de probabilitats [VeryNegative, Negative, Neutral, Positive, Very Positive]
 4. Mirar: https://curiousily.com/posts/sentiment-analysis-with-bert-and-hugging-face-using-pytorch-and-python/
 5. Canviar l'estructura d'arbre d'una llista de nodes a un yield.
@@ -21,9 +20,7 @@
         like_count: int
         parent_id: int
     ```
-1. Fer Callables a les funcions de conflictes
 1. replie = reply
-5. https://typer.tiangolo.com/ per a fer el programa per terminal
 
 Algoritme ML Text Similarity - BO
 
