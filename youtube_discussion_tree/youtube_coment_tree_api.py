@@ -1,7 +1,7 @@
 import re
 from youtube_discussion_tree.serializer.xml import serialize_tree
 from .conflicts import *
-from .utils import Node, bcolors
+from .utils import Node
 from .http import *
 from .serializer import serialize_tree
 from .tree_viz import print_graph
@@ -11,11 +11,11 @@ class YoutubeDiscusionTreeAPI():
     def __init__(self, api_key):
         self.api_key = api_key
 
-    def generate_tree(self, video_id, summarization = False, algorithm = tf_itf_automatic_algorithm):
+    def generate_tree(self, video_id, summarization = False, conflict_solving_algorithm = tf_idf_automatic_algorithm):
         video_content = get_sumarization_of_video_transcription(video_id, summarization)
         video_info = get_video_info(video_id, self.api_key)
         comments = get_video_comments(video_id, self.api_key)["items"]
-        return YoutubeCommentTree(video_id, algorithm).make_tree(Node (
+        return YoutubeCommentTree(video_id, conflict_solving_algorithm).make_tree(Node (
                                                             id = video_info["items"][0]["id"],
                                                             author_name = video_info["items"][0]["snippet"]["channelTitle"],
                                                             author_id = video_info["items"][0]["snippet"]["channelId"],
@@ -28,14 +28,13 @@ class YoutubeDiscusionTreeAPI():
 
 class YoutubeCommentTree():
 
-    def __init__(self, video_id, algorithm):
+    def __init__(self, video_id, conflict_solving_algorithm):
         self.video_id = video_id
-        self.algorithm = algorithm
+        self.conflict_solving_algorithm = conflict_solving_algorithm
         self.nodes = []
         self.contributions = {}
 
     def make_tree(self, root, comments):
-        print(bcolors.HEADER+"Generating discusion tree"+bcolors.ENDC)
         self.nodes.append(root)
         self.__create_comment_nodes(comments, root)
         return self
@@ -78,7 +77,14 @@ class YoutubeCommentTree():
                     parent_id = self.contributions[name][0].id
                 )
         else:
-            parent_id = self.algorithm(replie, self.contributions[name])
+            parent_id = self.conflict_solving_algorithm(Node(
+                                                            id = replie["id"],
+                                                            author_id = replie["snippet"]["authorChannelId"]["value"],
+                                                            author_name = replie["snippet"]["authorDisplayName"],
+                                                            text = replie["snippet"]["textOriginal"],
+                                                            likeCount = replie["snippet"]["likeCount"],
+                                                            parent_id = None
+                                                        ), self.contributions[name])
             return Node(
                 id = replie["id"],
                 author_id = replie["snippet"]["authorChannelId"]["value"],

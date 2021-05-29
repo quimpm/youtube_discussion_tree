@@ -1,9 +1,7 @@
 from transformers import pipeline
 import xml.etree.ElementTree as ET
-from ..utils import bcolors
 
 def serialize_tree(output_file, nodes, sa):
-    print(bcolors.HEADER+"Serializing discussion tree"+bcolors.ENDC)
     root = ET.Element("entailment-corpus")
     root.set("num_edges", str(len(nodes)-1))
     root.set("num_nodes", str(len(nodes)))
