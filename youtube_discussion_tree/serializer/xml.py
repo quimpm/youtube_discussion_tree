@@ -20,8 +20,8 @@ def create_argument(argument_list, node, aditional_atributes):
     arg.set("author_id", node.author_id)
     arg.set("id", node.id)
     arg.set("score", str(node.like_count))
-    for atribute_func in aditional_atributes:
-        atributes = atribute_func(node)
+    if aditional_atributes:
+        atributes = aditional_atributes(node)
         for label,value in atributes.items():
             arg.set(label, value)
 

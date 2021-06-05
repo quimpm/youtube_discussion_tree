@@ -28,7 +28,7 @@ def interactive_conflict_resolution(reply, contributions):
             number = -1
     return contributions[number].id
 
-def do_sentiment_analysis(node):
+def sentiment_analysis(node):
     sentiment_analysis = pipeline("sentiment-analysis")
     result = sentiment_analysis(node.text)[0]
     return {
@@ -36,8 +36,13 @@ def do_sentiment_analysis(node):
         "sentiment_prob" : str(round(result["score"], 4))
     }
 
+def additional_atributes(node):
+    atributes = sentiment_analysis(node)
+    atributes["hola"] = "que tal"
+    return atributes
+
 if __name__ == "__main__":
     api = YoutubeDiscusionTreeAPI("AIzaSyD-UjlHhqsZkhKKrDFp5PNaHyS6JHjLSUg")
-    tree = api.generate_tree("LnX3B9oaKzw", summarization=True)
-    tree.serialize("output.xml")
+    tree = api.generate_tree("9GHmfg54gg8", summarization=True)
+    tree.serialize("output.xml", additional_atributes)
     tree.show()

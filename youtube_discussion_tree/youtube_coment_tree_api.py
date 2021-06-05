@@ -39,7 +39,7 @@ class YoutubeCommentTree():
         self.__create_comment_nodes(comments, root)
         return self
 
-    def serialize(self, filename, aditional_atributes = {}):
+    def serialize(self, filename, aditional_atributes = None):
         serialize_tree(filename, self.nodes, aditional_atributes)
 
     def show(self):
