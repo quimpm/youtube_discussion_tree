@@ -1,4 +1,4 @@
-from youtube_discussion_tree import YoutubeDiscusionTreeAPI, YoutubeCommentTree
+from youtube_discussion_tree_api import YoutubeDiscusionTreeAPI
 from transformers import pipeline
 
 class bcolors:
@@ -45,4 +45,5 @@ if __name__ == "__main__":
     api = YoutubeDiscusionTreeAPI("AIzaSyD-UjlHhqsZkhKKrDFp5PNaHyS6JHjLSUg")
     tree = api.generate_tree("9GHmfg54gg8", summarization=True)
     tree.serialize("output.xml", additional_atributes)
+    print(api.quota_info())
     tree.show()

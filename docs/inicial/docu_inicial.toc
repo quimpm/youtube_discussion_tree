@@ -1,0 +1,6 @@
+\contentsline {section}{\numberline {1}Introducció}{1}{section.1}%
+\contentsline {section}{\numberline {2}Youtube}{1}{section.2}%
+\contentsline {section}{\numberline {3}Objectius del Treball}{2}{section.3}%
+\contentsline {section}{\numberline {4}Índex de la Memòria}{2}{section.4}%
+\contentsline {section}{\numberline {5}Tasques a realitzar}{4}{section.5}%
+\contentsline {section}{\numberline {6}Planificació temporal de les tasques a realitzar}{4}{section.6}%
