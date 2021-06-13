@@ -51,7 +51,8 @@ class YoutubeDiscusionTree():
                 author_name=reply["snippet"]["authorDisplayName"],
                 text=reply["snippet"]["textOriginal"],
                 like_count=reply["snippet"]["likeCount"],
-                parent_id=self.contributions[name][0].id
+                parent_id=self.contributions[name][0].id,
+                published_at = reply["snippet"]["publishedAt"]
             )
         else:
             parent_id = self.conflict_solving_algorithm(Node(
@@ -60,7 +61,8 @@ class YoutubeDiscusionTree():
                 author_name=reply["snippet"]["authorDisplayName"],
                 text=reply["snippet"]["textOriginal"],
                 like_count=reply["snippet"]["likeCount"],
-                parent_id=None
+                parent_id=None,
+                published_at = reply["snippet"]["publishedAt"]
             ), self.contributions[name])
             return Node(
                 id=reply["id"],
@@ -68,7 +70,8 @@ class YoutubeDiscusionTree():
                 author_name=reply["snippet"]["authorDisplayName"],
                 text=reply["snippet"]["textOriginal"],
                 like_count=reply["snippet"]["likeCount"],
-                parent_id=parent_id
+                parent_id=parent_id,
+                published_at = reply["snippet"]["publishedAt"]
             )
 
     def _actualize_contributions(self, reply, curr_node):
@@ -84,7 +87,8 @@ class YoutubeDiscusionTree():
             author_name=top_level_comment["snippet"]["authorDisplayName"],
             text=top_level_comment["snippet"]["textOriginal"],
             like_count=top_level_comment["snippet"]["likeCount"],
-            parent_id=parent_id
+            parent_id=parent_id,
+            published_at = top_level_comment["snippet"]["publishedAt"]
         )
 
     def _get_possible_names(self, match_string):

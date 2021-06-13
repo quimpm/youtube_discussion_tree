@@ -7,3 +7,4 @@ class Node:
     text: str
     like_count: int
     parent_id: int
+    published_at : str

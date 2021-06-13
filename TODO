@@ -1,5 +1,3 @@
-2. Agafar més informació dels comentaris i emmagatzemar-la a l'estructura de Node.
-
 1. Buscar un model amb un altre tipus d'analisi de sentiment a the HuggingFace. Distribució de probabilitats [VeryNegative, Negative, Neutral, Positive, Very Positive]  
     Mirar: https://curiousily.com/posts/sentiment-analysis-with-bert-and-hugging-face-using-pytorch-and-python/
 
@@ -14,7 +12,3 @@ Algoritme ML Text Similarity - BO
 
 
 - https://towardsdatascience.com/tf-idf-for-document-ranking-from-scratch-in-python-on-real-world-dataset-796d339a4089
-
-Other Features:
-- Search Videos from KeyWords
-- Get Real Time Quota of your project

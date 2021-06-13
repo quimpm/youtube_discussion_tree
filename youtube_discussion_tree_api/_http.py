@@ -54,5 +54,14 @@ def get_video_comments(id_video, api_key):
     }
     return requests.get(youtube_api_comment_threads, params = params).json()
 
-def search_videos(query):
-    pass
+def get_list_search_videos(query, search_results, api_key):
+    actualize_current_quota(QuotaOperations.SEARCH)
+    youtube_api_search = "https://www.googleapis.com/youtube/v3/search"
+    params = {
+        "key" : api_key,
+        "part" : ["snippet"],
+        "q" : query,
+        "maxResults" : search_results,
+        "type" : ["video"]
+    }
+    return requests.get(youtube_api_search, params).json()

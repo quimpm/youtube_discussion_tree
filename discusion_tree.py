@@ -1,3 +1,4 @@
+from youtube_discussion_tree_api.utils import video
 from youtube_discussion_tree_api import YoutubeDiscusionTreeAPI
 from transformers import pipeline
 
@@ -16,7 +17,7 @@ def interactive_conflict_resolution(reply, contributions):
     print("\n" + bcolors.WARNING + "A CONFLICT was found:" + bcolors.ENDC)
     print(bcolors.OKGREEN + "To which of this comments:" + bcolors.ENDC)
     for i, comment in enumerate(contributions):
-        print("\n" + bcolors.BOLD + str(i)+ " - " + bcolors.ENDC + bcolors.HEADER + "Author name: "+comment.author_name+", Author id: "+comment.author_id + bcolors.ENDC)
+        print("\n" + bcolors.BOLD + str(i)+ " - " + bcolors.ENDC + bcolors.HEADER + "Author name: "+comment.author_name+", Author id: "+comment.author_id +" - Published at: "+ comment.published_at + bcolors.ENDC)
         print(bcolors.OKCYAN + comment.text + bcolors.ENDC)
     print("\n" + bcolors.OKGREEN + "Belongs the reply:" + bcolors.ENDC)
     print(bcolors.OKCYAN + "- "+reply.text + bcolors.ENDC)
@@ -43,7 +44,11 @@ def additional_atributes(node):
 
 if __name__ == "__main__":
     api = YoutubeDiscusionTreeAPI("AIzaSyD-UjlHhqsZkhKKrDFp5PNaHyS6JHjLSUg")
-    tree = api.generate_tree("9GHmfg54gg8", summarization=True)
+    tree = api.generate_tree("9GHmfg54gg8", summarization=True, conflict_solving_algorithm=interactive_conflict_resolution)
     tree.serialize("output.xml", additional_atributes)
     print(api.quota_info())
+    #videos = api.search_videos("Functional programming", 30)
+    #print(videos[0])
+    #print(len(videos))
+    #print(api.quota_info())
     tree.show()

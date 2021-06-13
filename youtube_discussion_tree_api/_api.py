@@ -1,8 +1,9 @@
 from .utils import QuotaController
 from ._conflicts import *
-from .utils import Node
+from .utils import Node, Video
 from ._http import *
 from ._tree import YoutubeDiscusionTree
+from ._errors import SearchBoundsExceded
 import time
 import pickle
 import os
@@ -23,7 +24,8 @@ class YoutubeDiscusionTreeAPI():
                                                             author_id = video_info["items"][0]["snippet"]["channelId"],
                                                             text = video_content,
                                                             like_count = video_info["items"][0]["statistics"]["likeCount"],
-                                                            parent_id = None
+                                                            parent_id = None,
+                                                            published_at = video_info["items"][0]["snippet"]["publishedAt"]
                                                         ),
                                                         comments
                                             )
@@ -34,10 +36,21 @@ class YoutubeDiscusionTreeAPI():
             "spent" : get_current_quota()
         }
 
+    def search_videos(self, query, search_results = 5):
+        if search_results < 0 or search_results > 50:
+            raise SearchBoundsExceded(search_results, "Search Results parameter out of bounds, you have to set it from 0 to 50")
+        videos_json = get_list_search_videos(query, search_results, self.api_key)
+        return list(map(lambda x : Video(
+                                        id = x["id"]["videoId"],
+                                        title = x["snippet"]["title"],
+                                        description = x["snippet"]["description"],
+                                        channel_name = x["snippet"]["channelTitle"],
+                                        channel_id = x["snippet"]["channelId"],
+                                        published_at = x["snippet"]["publishedAt"]
+                                    ), 
+                    videos_json["items"])) 
+
     def __create_quota_controller(self):
         if(not os.path.isfile('./.quota.pickle')):
             quota_controller = QuotaController(self.api_key, 0, int(time.time()))
             pickle.dump(quota_controller, open("quota.pickle", "wb"))
-
-    def search_videos(self, query):
-        pass
