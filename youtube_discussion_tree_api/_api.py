@@ -1,10 +1,11 @@
-from .utils import QuotaController
-from ._conflicts import *
-from .utils import Node, Video
-from ._http import *
+from ._conflicts import _tf_idf_automatic_algorithm
+from .utils import Node, Video, QuotaController
+from ._http import _get_video_transcription, _get_video_info, _get_video_comments, _get_list_search_videos
 from ._tree import YoutubeDiscusionTree
+from ._quota import _get_api_limit, _get_current_quota
 from ._errors import SearchBoundsExceded
-import time
+from transformers import pipeline
+from datetime import datetime
 import pickle
 import os
 
@@ -12,12 +13,12 @@ class YoutubeDiscusionTreeAPI():
 
     def __init__(self, api_key):
         self.api_key = api_key
-        self.__create_quota_controller()
+        self._create_quota_controller()
 
-    def generate_tree(self, video_id, summarization = False, conflict_solving_algorithm = tf_idf_automatic_algorithm):
-        video_content = get_sumarization_of_video_transcription(video_id, summarization)
-        video_info = get_video_info(video_id, self.api_key)
-        comments = get_video_comments(video_id, self.api_key)["items"]
+    def generate_tree(self, video_id, summarization = False, conflict_solving_algorithm = _tf_idf_automatic_algorithm):
+        video_content = _get_video_transcription(video_id) if not summarization else self._sumarize_video(_get_video_transcription(video_id))
+        video_info = _get_video_info(video_id, self.api_key)
+        comments = _get_video_comments(video_id, self.api_key)["items"]
         return YoutubeDiscusionTree(video_id, conflict_solving_algorithm).make_tree(Node (
                                                             id = video_info["items"][0]["id"],
                                                             author_name = video_info["items"][0]["snippet"]["channelTitle"],
@@ -32,14 +33,14 @@ class YoutubeDiscusionTreeAPI():
 
     def quota_info(self):
         return {
-            "limit" : get_api_limit(),
-            "spent" : get_current_quota()
+            "limit" : _get_api_limit(),
+            "spent" : _get_current_quota()
         }
 
     def search_videos(self, query, search_results = 5):
         if search_results < 0 or search_results > 50:
             raise SearchBoundsExceded(search_results, "Search Results parameter out of bounds, you have to set it from 0 to 50")
-        videos_json = get_list_search_videos(query, search_results, self.api_key)
+        videos_json = _get_list_search_videos(query, search_results, self.api_key)
         return list(map(lambda x : Video(
                                         id = x["id"]["videoId"],
                                         title = x["snippet"]["title"],
@@ -50,7 +51,11 @@ class YoutubeDiscusionTreeAPI():
                                     ), 
                     videos_json["items"])) 
 
-    def __create_quota_controller(self):
+    def _create_quota_controller(self):
         if(not os.path.isfile('./.quota.pickle')):
-            quota_controller = QuotaController(self.api_key, 0, int(time.time()))
-            pickle.dump(quota_controller, open("quota.pickle", "wb"))
+            quota_controller = QuotaController(self.api_key, 0, datetime.now().strftime("%Y-%m-%d"))
+            pickle.dump(quota_controller, open(".quota.pickle", "wb"))
+
+    def _sumarize_video(self, video_transcription):
+        summarizer = pipeline("summarization")
+        return summarizer(video_transcription, max_length=512, min_length=256, do_sample=False, truncation=True)[0]["summary_text"]

@@ -1,5 +1,5 @@
-from ._xml import serialize_tree
-from ._viz import print_graph
+from ._xml import _serialize_tree
+from ._viz import _print_graph
 from .utils import Node
 import re
 
@@ -17,10 +17,10 @@ class YoutubeDiscusionTree():
         return self
 
     def serialize(self, filename, aditional_atributes=None):
-        serialize_tree(filename, self.nodes, aditional_atributes)
+        _serialize_tree(filename, self.nodes, aditional_atributes)
 
     def show(self):
-        print_graph(self.nodes)
+        _print_graph(self.nodes)
 
     def _create_comment_nodes(self, comment_threads, root):
         for i, comment_thread in enumerate(comment_threads):

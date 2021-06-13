@@ -1,6 +1,6 @@
 from treelib import Node, Tree
 
-def print_graph(nodes):
+def _print_graph(nodes):
         tree = Tree()
         for node in nodes:
             if node.parent_id == None:

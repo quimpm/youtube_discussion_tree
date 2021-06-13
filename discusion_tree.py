@@ -50,5 +50,5 @@ if __name__ == "__main__":
     #videos = api.search_videos("Functional programming", 30)
     #print(videos[0])
     #print(len(videos))
-    #print(api.quota_info())
+    print(api.quota_info())
     tree.show()
