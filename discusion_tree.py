@@ -44,9 +44,9 @@ def additional_atributes(node):
 
 if __name__ == "__main__":
     api = YoutubeDiscusionTreeAPI("AIzaSyD-UjlHhqsZkhKKrDFp5PNaHyS6JHjLSUg")
-    tree = api.generate_tree("9GHmfg54gg8", summarization=True, conflict_solving_algorithm=interactive_conflict_resolution)
-    tree.serialize("output.xml", additional_atributes)
-    print(api.quota_info())
+    tree = api.generate_tree("LnX3B9oaKzw", summarization=True) #Aditionally, conflict solving algorithm can be passed
+    tree.serialize("output.xml") #Aditional atributes can be added with a function that returns a dict key:value
+    #print(api.quota_info())
     #videos = api.search_videos("Functional programming", 30)
     #print(videos[0])
     #print(len(videos))
