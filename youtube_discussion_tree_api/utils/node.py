@@ -1,5 +1,5 @@
 import dataclasses as dto
-@dto.dataclass
+@dto.dataclass(eq=True)
 class Node:
     id: int
     author_name: str

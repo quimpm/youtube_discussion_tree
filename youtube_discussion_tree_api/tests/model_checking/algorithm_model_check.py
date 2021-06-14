@@ -1,6 +1,6 @@
-from youtube_discussion_tree_api.utils import video
 from youtube_discussion_tree_api import YoutubeDiscusionTreeAPI
-from transformers import pipeline
+from dotenv import dotenv_values
+import pickle
 
 class bcolors:
     HEADER = '\033[95m'
@@ -29,26 +29,21 @@ def interactive_conflict_resolution(reply, contributions):
             number = -1
     return contributions[number].id
 
-def sentiment_analysis(node):
-    sentiment_analysis = pipeline("sentiment-analysis")
-    result = sentiment_analysis(node.text)[0]
-    return {
-        "sentiment" : result["label"],
-        "sentiment_prob" : str(round(result["score"], 4))
-    }
+def main():
+    print("This is a supervised Model Correctness Algorithm for the automatic conflict solving algorithm.")
+    MATCH_TREES = 0
+    TOTAL_TREES = 50
+    config = dotenv_values("../../.env")
+    api = YoutubeDiscusionTreeAPI(config["API_KEY"])
+    videos = api.search_videos("Functional programming", TOTAL_TREES)
+    for i,video in enumerate(videos):
+        auto_tree = api.generate_tree(video.id)
+        inter_tree = api.generate_tree(video.id, conflict_solving_algorithm = interactive_conflict_resolution)
+        if auto_tree == inter_tree:
+            MATCH_TREES += 1
+    print("Matching trees: "+str(MATCH_TREES)+"/"+str(TOTAL_TREES))
+    print("Correctness percentage: "+str(MATCH_TREES/TOTAL_TREES*100))
 
-def additional_atributes(node):
-    atributes = sentiment_analysis(node)
-    atributes["hola"] = "que tal"
-    return atributes
 
 if __name__ == "__main__":
-    api = YoutubeDiscusionTreeAPI("AIzaSyD-UjlHhqsZkhKKrDFp5PNaHyS6JHjLSUg")
-    tree = api.generate_tree("LnX3B9oaKzw", summarization=True) #Aditionally, conflict solving algorithm can be passed
-    tree.serialize("output.xml") #Aditional atributes can be added with a function that returns a dict key:value
-    #print(api.quota_info())
-    #videos = api.search_videos("Functional programming", 30)
-    #print(videos[0])
-    #print(len(videos))
-    print(api.quota_info())
-    tree.show()
+    main()

@@ -54,7 +54,8 @@ class YoutubeDiscusionTreeAPI():
     def _create_quota_controller(self):
         if(not os.path.isfile('./.quota.pickle')):
             quota_controller = QuotaController(self.api_key, 0, datetime.now().strftime("%Y-%m-%d"))
-            pickle.dump(quota_controller, open(".quota.pickle", "wb"))
+            with open(".quota.pickle", "wb") as f:
+                pickle.dump(quota_controller, f)
 
     def _sumarize_video(self, video_transcription):
         summarizer = pipeline("summarization")

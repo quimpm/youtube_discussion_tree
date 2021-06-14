@@ -102,3 +102,12 @@ class YoutubeDiscusionTree():
             if name in contributions.keys():
                 return name
         return []
+
+    def __eq__(self, o: object) -> bool:
+        if self.video_id != o.video_id:
+            return False
+        for i, node in self.nodes:
+            if node != o.nodes[i]:
+                return False
+        return True
+        
