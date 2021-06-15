@@ -110,14 +110,14 @@ class TestConflistSolvingAlgorithm(TestCase):
             (2, "cute") : (1/11 * np.log(3/2)),
         }, tf_idf)
 
-    def test_cosine_similarity():
+    def test_cosine_similarity(self):
         pass
 
-    def test_gen_vector():
+    def test_gen_vector(self):
         pass
 
-    def test_cosine_sim():
+    def test_cosine_sim(self):
         pass
 
-    def test_tf_idf_algorithm():
+    def test_tf_idf_algorithm(self):
         pass
