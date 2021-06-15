@@ -45,13 +45,3 @@ class TestYoutubeDiscusionTreeAPI(TestCase):
         with self.assertRaises(SearchBoundsExceded):
             self.api.search_videos("Functional Programming", 60)
     
-    def test_create_quota_controller(self):
-        if os.path.exists(".quota.pickle"):
-            os.remove(".quota.pickle")
-        self.api._create_quota_controller()
-        self.assertTrue(os.path.exists(".quota.pickle"))
-        with open(".quota.pickle", "rb") as f:
-            quota_controller = pickle.load(f)
-        self.assertEqual(quota_controller.api_key, self.api_key)
-        self.assertEqual(quota_controller.curr_date, datetime.now().strftime("%Y-%m-%d"))
-        self.assertEqual(quota_controller.curr_quota, 0)

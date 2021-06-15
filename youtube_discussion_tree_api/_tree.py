@@ -33,7 +33,7 @@ class YoutubeDiscusionTree():
             match = re.match('(@.{0,50} )', reply["snippet"]["textOriginal"])
             if match:
                 possible_names = self._get_possible_names(match[0].split(" "))
-                name = self._find_name_in_thread(possible_names, self.contributions)
+                name = self._find_name_in_thread(possible_names)
                 if not name:
                     curr_node = self._new_node(reply, top_level_comment_id)
                 else:
@@ -45,34 +45,10 @@ class YoutubeDiscusionTree():
 
     def _create_deep_replie_node(self, name, reply):
         if len(self.contributions[name]) == 1:
-            return Node(
-                id=reply["id"],
-                author_id=reply["snippet"]["authorChannelId"]["value"],
-                author_name=reply["snippet"]["authorDisplayName"],
-                text=reply["snippet"]["textOriginal"],
-                like_count=reply["snippet"]["likeCount"],
-                parent_id=self.contributions[name][0].id,
-                published_at = reply["snippet"]["publishedAt"]
-            )
+            return self._new_node(reply, self.contributions[name][0].id)
         else:
-            parent_id = self.conflict_solving_algorithm(Node(
-                id=reply["id"],
-                author_id=reply["snippet"]["authorChannelId"]["value"],
-                author_name=reply["snippet"]["authorDisplayName"],
-                text=reply["snippet"]["textOriginal"],
-                like_count=reply["snippet"]["likeCount"],
-                parent_id=None,
-                published_at = reply["snippet"]["publishedAt"]
-            ), self.contributions[name])
-            return Node(
-                id=reply["id"],
-                author_id=reply["snippet"]["authorChannelId"]["value"],
-                author_name=reply["snippet"]["authorDisplayName"],
-                text=reply["snippet"]["textOriginal"],
-                like_count=reply["snippet"]["likeCount"],
-                parent_id=parent_id,
-                published_at = reply["snippet"]["publishedAt"]
-            )
+            parent_id = self.conflict_solving_algorithm(self._new_node(reply, None), self.contributions[name])
+            return self._new_node(reply, parent_id)
 
     def _actualize_contributions(self, curr_node):
         if curr_node.author_name in self.contributions.keys():
@@ -80,26 +56,26 @@ class YoutubeDiscusionTree():
         else:
             self.contributions[curr_node.author_name] = [curr_node]
 
-    def _new_node(self, top_level_comment, parent_id):
+    def _new_node(self, comment, parent_id):
         return Node(
-            id=top_level_comment["id"],
-            author_id=top_level_comment["snippet"]["authorChannelId"]["value"],
-            author_name=top_level_comment["snippet"]["authorDisplayName"],
-            text=top_level_comment["snippet"]["textOriginal"],
-            like_count=top_level_comment["snippet"]["likeCount"],
+            id=comment["id"],
+            author_id=comment["snippet"]["authorChannelId"]["value"],
+            author_name=comment["snippet"]["authorDisplayName"],
+            text=comment["snippet"]["textOriginal"],
+            like_count=comment["snippet"]["likeCount"],
             parent_id=parent_id,
-            published_at = top_level_comment["snippet"]["publishedAt"]
+            published_at = comment["snippet"]["publishedAt"]
         )
 
-    def _get_possible_names(self, match_string):
-        if not match_string:
-            return [" "]
+    def _get_possible_names(self, tokenized_match_string):
+        if not tokenized_match_string:
+            return []
         else:
-            return [' '.join(match_string)[1:]] + self._get_possible_names(match_string[:-1])
+            return [' '.join(tokenized_match_string)[1:]] + self._get_possible_names(tokenized_match_string[:-1])
 
-    def _find_name_in_thread(self, possible_names, contributions):
+    def _find_name_in_thread(self, possible_names):
         for name in possible_names:
-            if name in contributions.keys():
+            if name in self.contributions.keys():
                 return name
         return []
 

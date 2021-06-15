@@ -188,9 +188,37 @@ class TestYoutubeDiscusionTree(TestCase):
             ))
         self.assertEqual(2, len(self.tree.contributions["Quim Picó Mora"]))
         self.assertEqual("comment1", self.tree.contributions["Quim Picó Mora"][1].id)
-        
-        
 
-
+    def test_new_node(self):
+        jsonComment = {
+                                                "id" : "comment2",
+                                                "snippet" : {
+                                                    "authorChannelId" : {
+                                                        "value" : "author2"
+                                                    },
+                                                    "authorDisplayName" : "Miquel Farré",
+                                                    "textOriginal" : "I like Turtles, i found them really interesting and cute",
+                                                    "likeCount" : 100000,
+                                                    "publishedAt" : "12-12-2020"
+                                                }
+                                            }
+        node = self.tree._new_node(jsonComment, "root")
+        self.assertEqual(jsonComment["id"],node.id)
+        self.assertEqual(jsonComment["snippet"]["authorDisplayName"], node.author_name)
+        self.assertEqual(jsonComment["snippet"]["authorChannelId"]["value"], node.author_id)
+        self.assertEqual(jsonComment["snippet"]["textOriginal"], node.text)
+        self.assertEqual(jsonComment["snippet"]["likeCount"], node.like_count)
+        self.assertEqual(jsonComment["snippet"]["publishedAt"], node.published_at)
+        self.assertEqual("root", node.parent_id)
         
+    def test_get_possible_names(self):
+        self.assertEqual(list(reversed(["Quim", "Quim Picó", "Quim Picó Mora"])), self.tree._get_possible_names("@Quim Picó Mora".split()))
+        self.assertEqual(list(reversed(["Quim", "Quim Picó", "Quim Picó Mora", "Quim Picó Mora aaaaaa", "Quim Picó Mora aaaaaa aaaaaa"])), self.tree._get_possible_names("@Quim Picó Mora aaaaaa aaaaaa".split()))
+        self.assertEqual(["Quim"], self.tree._get_possible_names("@Quim".split()))
+
+    def test_find_name_in_thread(self):
+        self.tree.contributions = {
+            "Quim Picó Mora" : "Tha one and only"
+        }
+        self.assertEqual("Quim Picó Mora", self.tree._find_name_in_thread(["Quim", "Quim Picó", "Quim Picó Mora"]))
         
