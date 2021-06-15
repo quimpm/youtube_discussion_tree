@@ -4,6 +4,7 @@ from nltk.stem import PorterStemmer
 from collections import Counter
 import numpy as np
 import math
+import warnings
 
 def _calculate_document_frequency(comments):
     DF = {}
@@ -42,7 +43,9 @@ def _calculate_tf_idf(candidates, doc_freq, N, word_count):
     return tf_idf
 
 def _cosine_sim(a, b):
-    cos_sim = np.dot(a, b)/(np.linalg.norm(a)*np.linalg.norm(b))
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore') 
+        cos_sim = np.dot(a, b)/(np.linalg.norm(a)*np.linalg.norm(b))
     return cos_sim
 
 def _gen_vector(tokens, total_vocab, doc_freq, N):

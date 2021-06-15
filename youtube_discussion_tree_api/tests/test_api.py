@@ -28,6 +28,7 @@ class TestYoutubeDiscusionTreeAPI(TestCase):
         self.assertEqual(tree.nodes[6].id, "UgznJ9jPP_p6uIF5Wfp4AaABAg.9MvYEeiNOK-9Nnv216MjLV")
         self.assertEqual(tree.nodes[6].parent_id, "UgznJ9jPP_p6uIF5Wfp4AaABAg")
         self.assertEqual(tree.nodes[7].id, "Ugzrk4QCbElug58ycGp4AaABAg")
+        self.assertEqual(tree.nodes[7].parent_id, "9GHmfg54gg8")
 
     def test_quota_info(self):
         info = self.api.quota_info()

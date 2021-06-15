@@ -13,7 +13,7 @@ class YoutubeDiscusionTree():
 
     def make_tree(self, root, comments):
         self.nodes.append(root)
-        self._create_comment_nodes(comments, root)
+        self._create_comment_nodes(comments, root.id)
         return self
 
     def serialize(self, filename, aditional_atributes=None):
@@ -22,9 +22,9 @@ class YoutubeDiscusionTree():
     def show(self):
         _print_graph(self.nodes)
 
-    def _create_comment_nodes(self, comment_threads, root):
+    def _create_comment_nodes(self, comment_threads, root_id):
         for i, comment_thread in enumerate(comment_threads):
-            self.nodes.append(self._new_node(comment_thread["snippet"]["topLevelComment"], root.id))
+            self.nodes.append(self._new_node(comment_thread["snippet"]["topLevelComment"], root_id))
             if "replies" in comment_thread.keys():
                 self._create_replies_nodes(list(reversed(comment_thread["replies"]["comments"])), self.nodes[-1].id)
 
@@ -41,7 +41,7 @@ class YoutubeDiscusionTree():
             else:
                 curr_node = self._new_node(reply, top_level_comment_id)
             self.nodes.append(curr_node)
-            self._actualize_contributions(reply, curr_node)
+            self._actualize_contributions(curr_node)
 
     def _create_deep_replie_node(self, name, reply):
         if len(self.contributions[name]) == 1:
@@ -74,11 +74,11 @@ class YoutubeDiscusionTree():
                 published_at = reply["snippet"]["publishedAt"]
             )
 
-    def _actualize_contributions(self, reply, curr_node):
-        if reply["snippet"]["authorDisplayName"] in self.contributions.keys():
-            self.contributions[reply["snippet"]["authorDisplayName"]].append(curr_node)
+    def _actualize_contributions(self, curr_node):
+        if curr_node.author_name in self.contributions.keys():
+            self.contributions[curr_node.author_name].append(curr_node)
         else:
-            self.contributions[reply["snippet"]["authorDisplayName"]] = [curr_node]
+            self.contributions[curr_node.author_name] = [curr_node]
 
     def _new_node(self, top_level_comment, parent_id):
         return Node(
