@@ -110,14 +110,71 @@ class TestConflistSolvingAlgorithm(TestCase):
             (2, "cute") : (1/11 * np.log(3/2)),
         }, tf_idf)
 
-    def test_cosine_similarity(self):
-        pass
+    def test_cosine_sim(self):
+        v1 = [1/11 * np.log(3/2),1/11 * np.log(3/2),1/11 * np.log(3/2),1/11 * np.log(3/3),1/11 * np.log(3/2),1/11 * np.log(3/2),1/11 * np.log(3/2),1/11 * np.log(3/2),1/11 * np.log(3/2),1/11 * np.log(3/2),1/11 * np.log(3/2)]
+        v2 = [0,0,0,0,1,1,1,1,1,0,0]
+        self.assertEqual(np.dot(v1, v2)/(np.linalg.norm(v1)*np.linalg.norm(v2)), _cosine_sim(v1,v2))
 
     def test_gen_vector(self):
-        pass
+        df = {
+            "hello" : 1,
+            "love" : 1,
+            "turtl" : 1,
+            "dog" : 2,
+            "cat" : 1,
+            "best" : 1,
+            "anim" : 1,
+            "whole" : 1,
+            "world" : 1,
+            "person" : 1,
+            "cute" : 1
+        }
+        expected = np.zeros(len(df.keys()))
+        expected[1]= 1/11 * np.log(4/2)
+        expected[2]= 1/11 * np.log(4/2)
+        expected[10] = 1/11 * np.log(4/2)
+        self.assertEqual(
+            expected.all(),_gen_vector(['hey', 'dude', 'also', 'love', 'turtl', 'cute', 'slow'], list(df.keys()), df , 3).all()
+            ) 
 
-    def test_cosine_sim(self):
-        pass
-
+    def test_cosine_similarity(self):
+        reply = Node(
+                id = "comment1",
+                author_name = "Quim10^-12",
+                author_id = "author1",
+                text = "Hey dude! I also love turtle, they are so cute and slow.",
+                like_count = 10000000,
+                parent_id = None,
+                published_at = "12-12-2012"
+            )
+        df = {
+            "hello" : 1,
+            "love" : 1,
+            "turtl" : 1,
+            "dog" : 2,
+            "cat" : 1,
+            "best" : 1,
+            "anim" : 1,
+            "whole" : 1,
+            "world" : 1,
+            "person" : 1,
+            "cute" : 1
+        }  
+        D = [[1,1,1,1,0,0,0,0,0,0,0],
+            [0,0,0,0,1,1,1,1,1,0,0],
+            [0,0,0,1,0,0,0,0,0,1,1]]
+        cosines = _cosine_similarity(   reply
+                                        , D
+                                        , list(df.keys())
+                                        , df,
+                                        3)
+        v = [0, 1/11 * np.log(4/2), 1/11 * np.log(4/2), 0, 0, 0, 0, 0, 0, 0, 1/11 * np.log(4/2)]
+        self.assertEqual([
+            (1,np.dot(v, D[0])/(np.linalg.norm(v)*np.linalg.norm(D[0]))),
+            (0,np.dot(v, D[1])/(np.linalg.norm(v)*np.linalg.norm(D[1]))),
+            (0,np.dot(v, D[2])/(np.linalg.norm(v)*np.linalg.norm(D[2])))
+        ],cosines)
+        
+        
     def test_tf_idf_algorithm(self):
         pass
