@@ -12,7 +12,6 @@ class TestYoutubeDiscusionTreeAPI(TestCase):
         self.api_key = os.getenv('API_KEY')
         self.api = YoutubeDiscusionTreeAPI(self.api_key)
 
-    #Replantejar com fer-ho
     def test_generate_tree(self):
         tree = self.api.generate_tree("9GHmfg54gg8")
         self.assertEqual(8, len(tree.nodes))
@@ -20,16 +19,15 @@ class TestYoutubeDiscusionTreeAPI(TestCase):
         self.assertEqual(tree.nodes[0].parent_id, None)
         self.assertEqual(tree.nodes[1].id, "UgznJ9jPP_p6uIF5Wfp4AaABAg")
         self.assertEqual(tree.nodes[1].parent_id, "9GHmfg54gg8")
-        self.assertEqual(tree.nodes[7].id, "UgznJ9jPP_p6uIF5Wfp4AaABAg.º-9Nnv216MjLV")
-        self.assertEqual(tree.nodes[7].parent_id, "UgznJ9jPP_p6uIF5Wfp4AaABAg")
-        self.assertEqual(tree.nodes[6].id, "UgznJ9jPP_p6uIF5Wfp4AaABAg.9MvYEeiNOK-9MvYcfNG7h0")
-        self.assertEqual(tree.nodes[6].parent_id, "UgznJ9jPP_p6uIF5Wfp4AaABAg")
-        self.assertEqual(tree.nodes[5].id, "UgznJ9jPP_p6uIF5Wfp4AaABAg.9MvYEeiNOK-9MvYTJqtQ01")
-        self.assertEqual(tree.nodes[4].id, "UgznJ9jPP_p6uIF5Wfp4AaABAg.9MvYEeiNOK-9MvYRUvooiC")
-        self.assertEqual(tree.nodes[3].id, "UgznJ9jPP_p6uIF5Wfp4AaABAg.9MvYEeiNOK-9MvYRUvooiC")
         self.assertEqual(tree.nodes[2].id, "UgznJ9jPP_p6uIF5Wfp4AaABAg.9MvYEeiNOK-9MvYLPbgx68")
-        self.assertEqual(tree.nodes[8].id, "Ugzrk4QCbElug58ycGp4AaABAg")
-        self.assertEqual(tree.nodes[8].parent_id, "9GHmfg54gg8")
+        self.assertEqual(tree.nodes[2].parent_id, "UgznJ9jPP_p6uIF5Wfp4AaABAg")
+        self.assertEqual(tree.nodes[3].id, "UgznJ9jPP_p6uIF5Wfp4AaABAg.9MvYEeiNOK-9MvYRUvooiC")
+        self.assertEqual(tree.nodes[3].parent_id, "UgznJ9jPP_p6uIF5Wfp4AaABAg")
+        self.assertEqual(tree.nodes[4].id, "UgznJ9jPP_p6uIF5Wfp4AaABAg.9MvYEeiNOK-9MvYTJqtQ01")
+        self.assertEqual(tree.nodes[5].id, "UgznJ9jPP_p6uIF5Wfp4AaABAg.9MvYEeiNOK-9MvYcfNG7h0")
+        self.assertEqual(tree.nodes[6].id, "UgznJ9jPP_p6uIF5Wfp4AaABAg.9MvYEeiNOK-9Nnv216MjLV")
+        self.assertEqual(tree.nodes[6].parent_id, "UgznJ9jPP_p6uIF5Wfp4AaABAg")
+        self.assertEqual(tree.nodes[7].id, "Ugzrk4QCbElug58ycGp4AaABAg")
 
     def test_quota_info(self):
         info = self.api.quota_info()
@@ -40,10 +38,11 @@ class TestYoutubeDiscusionTreeAPI(TestCase):
         videos = self.api.search_videos("Functional Programming", 20)
         self.assertEqual(20, len(videos))
         for video in videos:
-            self.assertIs(Video)
+            self.assertIsInstance(video, Video)
 
     def test_search_video_rise_exception(self):
-        self.assertRaises(self.api.search_videos("Functional Programming", 60), SearchBoundsExceded)
+        with self.assertRaises(SearchBoundsExceded):
+            self.api.search_videos("Functional Programming", 60)
     
     def test_create_quota_controller(self):
         if os.path.exists(".quota.pickle"):

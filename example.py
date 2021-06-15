@@ -46,7 +46,7 @@ def additional_atributes(node):
 if __name__ == "__main__":
     config = dotenv_values(".env")
     api = YoutubeDiscusionTreeAPI(config["API_KEY"])
-    tree = api.generate_tree("LnX3B9oaKzw", summarization=True) #Aditionally, conflict solving algorithm can be passed
+    tree = api.generate_tree("9GHmfg54gg8", summarization=True) #Aditionally, conflict solving algorithm can be passed
     tree.serialize("output.xml") #Aditional atributes can be added with a function that returns a dict key:value
     #print(api.quota_info())
     #videos = api.search_videos("Functional programming", 30)
