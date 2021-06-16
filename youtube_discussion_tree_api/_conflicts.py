@@ -4,7 +4,6 @@ from nltk.stem import PorterStemmer
 from collections import Counter
 import numpy as np
 import math
-import warnings
 
 def _calculate_document_frequency(comments):
     DF = {}

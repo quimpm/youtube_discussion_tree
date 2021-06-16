@@ -2,7 +2,6 @@ import requests
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter
 from .utils import QuotaOperations
-import sys
 from youtube_discussion_tree_api._errors import NoEnglishTranscription
 
 def _get_video_transcription(video_id):
