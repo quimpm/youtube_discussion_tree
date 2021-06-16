@@ -208,10 +208,10 @@ This will give you a dict like:
 
 ## Author Note
 
-Hey, Quim here! 
+Hey, Quim here! :man_technologist:
 
-So, this is it for the Youtube Discusion Tree API, hope you enjoy the package! If you have any comment (xD)
+So, this is it for the Youtube Discusion Tree API, hope you enjoy the package! If you have any comment(xD)
 on the impementation, or you want to share some features that can be added to de library, hit me up!
-This is my very first python package so, any kind of feedback will be pleasantly accepted! 
+Any kind of feedback will be pleasantly accepted! :smile:
 
--Quim10^-12
+Quim10^-12
