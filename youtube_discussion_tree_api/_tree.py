@@ -22,6 +22,9 @@ class YoutubeDiscusionTree():
     def show(self):
         _print_graph(self.nodes)
 
+    def get_nodes(self):
+        return self.nodes
+
     def _create_comment_nodes(self, comment_threads, root_id):
         for i, comment_thread in enumerate(comment_threads):
             self.nodes.append(self._new_node(comment_thread["snippet"]["topLevelComment"], root_id))
