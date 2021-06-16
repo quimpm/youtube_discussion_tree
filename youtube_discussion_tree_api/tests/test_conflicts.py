@@ -168,7 +168,7 @@ class TestConflistSolvingAlgorithm(TestCase):
                                         , list(df.keys())
                                         , df,
                                         3)
-        v = [0, 1/11 * np.log(4/2), 1/11 * np.log(4/2), 0, 0, 0, 0, 0, 0, 0, 1/11 * np.log(4/2)]
+        v = [0, 1/7 * np.log(4/2), 1/7 * np.log(4/2), 0, 0, 0, 0, 0, 0, 0, 1/7 * np.log(4/2)]
         self.assertEqual([
             (1,np.dot(v, D[0])/(np.linalg.norm(v)*np.linalg.norm(D[0]))),
             (0,np.dot(v, D[1])/(np.linalg.norm(v)*np.linalg.norm(D[1]))),
@@ -177,4 +177,13 @@ class TestConflistSolvingAlgorithm(TestCase):
         
         
     def test_tf_idf_algorithm(self):
-        pass
+        reply = Node(
+                id = "comment1",
+                author_name = "Quim10^-12",
+                author_id = "author1",
+                text = "Hey dude! I also love turtle, they are so cute and slow.",
+                like_count = 10000000,
+                parent_id = None,
+                published_at = "12-12-2012"
+            )
+        self.assertEqual("comment1", _tf_idf_automatic_algorithm(reply, self.candidates))
