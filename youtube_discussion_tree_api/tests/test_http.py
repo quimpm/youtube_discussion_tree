@@ -3,6 +3,8 @@ from unittest import TestCase
 import os
 from youtube_discussion_tree_api.utils import QuotaInfo
 from youtube_discussion_tree_api._quota import QuotaManager
+from youtube_discussion_tree_api._errors import NoEnglishTranscription
+import warnings
 
 class TestHttpMethods(TestCase):
 
@@ -10,6 +12,19 @@ class TestHttpMethods(TestCase):
         self.API_KEY = os.getenv("API_KEY")
         self.quota_controller = QuotaInfo("apikey", 0, "12-12-2012")
         self.quota_manger = QuotaManager("./youtube_discussion_tree_api/tests/.quota.pickle")
+
+    def test_get_transcription(self):
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore') 
+            transcription = _get_video_transcription("LnX3B9oaKzw")
+        self.assertTrue(transcription != None)
+
+    def test_get_transiction_raise_error(self):
+        with self.assertRaises(NoEnglishTranscription):
+             with warnings.catch_warnings():
+                warnings.simplefilter('ignore') 
+                _get_video_transcription("5w5N8fxXVzs")
+        
 
     def test_get_video_comments(self):
         result = _get_video_comments("9GHmfg54gg8", self.API_KEY, self.quota_manger)

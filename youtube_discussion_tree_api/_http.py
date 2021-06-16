@@ -3,9 +3,13 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter
 from .utils import QuotaOperations
 import sys
+from youtube_discussion_tree_api._errors import NoEnglishTranscription
 
 def _get_video_transcription(video_id):
-    transcript = YouTubeTranscriptApi.get_transcript(video_id)
+    try:
+        transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=['en'])
+    except:
+        raise NoEnglishTranscription(video_id, "This video doen't suport a Transcription to english")
     formatter = TextFormatter()
     return formatter.format_transcript(transcript)
 
