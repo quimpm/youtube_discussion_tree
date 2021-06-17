@@ -6,5 +6,5 @@ install:
   - python -c "import nltk; nltk.download('stopwords')"
 script:
   - coverage run --source=youtube_discusion_tree_api  -m unittest
-before-script:
+after-success:
   - coveralls
