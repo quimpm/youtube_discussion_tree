@@ -6,3 +6,5 @@ torchvision
 torchaudio
 treelib
 nltk
+coverage
+coveralls
