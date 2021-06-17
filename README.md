@@ -1,6 +1,6 @@
-# YouTube Discusion Tree API 
+# YouTube Discussion Tree API 
 
-[![Build Status](https://travis-ci.com/quimpm/youtube_discussion_tree.svg?branch=main)](https://travis-ci.com/quimpm/youtube_discussion_tree)[![Coverage Status](https://coveralls.io/repos/github/quimpm/youtube_discussion_tree/badge.svg)](https://coveralls.io/github/quimpm/youtube_discussion_tree)[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](http://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.com/quimpm/youtube_discussion_tree.svg?branch=main)](https://travis-ci.com/quimpm/youtube_discussion_tree)[![Coverage Status](https://coveralls.io/repos/github/quimpm/youtube_discussion_tree/badge.svg)](https://coveralls.io/github/quimpm/youtube_discussion_tree)[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](http://opensource.org/licenses/MIT)[![image](https://img.shields.io/pypi/v/youtube-transcript-api.svg)](https://pypi.org/project/youtube-transcript-api/) [![image](https://img.shields.io/pypi/pyversions/youtube-transcript-api.svg)](https://pypi.org/project/youtube-discussion-tree-api/)
 
 This is a python API that allows you to obtain the discussion 
 that occurs in the comments of a YouTube video as a tree structure.
@@ -14,7 +14,7 @@ It is recommended to install it through pip:
 
 
 ```bash
-pip install youtube_discusion_tree_api
+pip install youtube_discussion_tree_api
 ```
 
 Also, if you want to use it from source you will have to install manually the dependencies:
@@ -32,17 +32,17 @@ Now we're going to dive into the features that the API provide and how to use th
 This is the main feature of the API. The easiest way of generating a tree is:
 
 ```python
-from youtube_discusion_tree_api import YoutubeDiscusionTreeApi
+from youtube_discussion_tree_api import YoutubeDiscussionTreeApi
 
-api = YoutubeDiscusionTreeApi("<put your gcs api and services api key>")
+api = YoutubeDiscussionTreeApi("<put your gcs api and services api key>")
 tree = api.generateTree("put the videoId")
 
 ```
 
-First, you create a YoutubeDiscusionTreeApi object with the API KEY of your GCP project. This object
+First, you create a YoutubeDiscussionTreeApi object with the API KEY of your GCP project. This object
 is thought as the template object that holds all the interactions with the YouTube Data API.
 
-Then, we call the method generateTree, that give us as a response a YoutubeDiscusionTree object that
+Then, we call the method generateTree, that give us as a response a YoutubeDiscussionTree object that
 holds the tree structure.
 
 Each node of the tree is a Node object:
@@ -154,12 +154,12 @@ This function will receive as parameter the reply Node and a set of Node candida
 
 ### Search videos 
 
-Through the YoutubeDiscusionTreeAPI object, you can also request for a set of videos that are found matching a given query:
+Through the YoutubeDiscussionTreeAPI object, you can also request for a set of videos that are found matching a given query:
 
 ```python
-from youtube_discusion_tree_api import YoutubeDiscusionTreeApi
+from youtube_discussion_tree_api import YoutubeDiscussionTreeApi
 
-api = YoutubeDiscusionTreeApi("<put your gcs api and services api key>")
+api = YoutubeDiscussionTreeApi("<put your gcs api and services api key>")
 videos = api.search_videos("Functional Programming")
 
 ```
@@ -178,9 +178,9 @@ class Video:
 You can expand or diminish the number of results in the result set by passing another optional parameter: 
 
 ```python
-from youtube_discusion_tree_api import YoutubeDiscusionTreeApi
+from youtube_discussion_tree_api import YoutubeDiscussionTreeApi
 
-api = YoutubeDiscusionTreeApi("<put your gcs api and services api key>")
+api = YoutubeDiscussionTreeApi("<put your gcs api and services api key>")
 videos = api.search_videos("Functional Programming", 50)
 ```
 
@@ -196,9 +196,9 @@ that uses the library is. It automatically resets its value day after day.
 In order to get quota information, you can do:
 
 ```python
-from youtube_discusion_tree_api import YoutubeDiscusionTreeApi
+from youtube_discussion_tree_api import YoutubeDiscussionTreeApi
 
-api = YoutubeDiscusionTreeApi("<put your gcs api and services api key>")
+api = YoutubeDiscussionTreeApi("<put your gcs api and services api key>")
 api.quota_info()
 ```
 

@@ -1,14 +1,14 @@
 from unittest import TestCase
-from youtube_discussion_tree_api._tree import YoutubeDiscusionTree
+from youtube_discussion_tree_api._tree import YoutubeDiscussionTree
 from youtube_discussion_tree_api._conflicts import _tf_idf_automatic_algorithm
 import json
 import os
 from youtube_discussion_tree_api.utils import Node
 
-class TestYoutubeDiscusionTree(TestCase):
+class TestYoutubeDisscusionTree(TestCase):
 
     def setUp(self):
-        self.tree = YoutubeDiscusionTree("9GHmfg54gg8", _tf_idf_automatic_algorithm)
+        self.tree = YoutubeDiscussionTree("9GHmfg54gg8", _tf_idf_automatic_algorithm)
 
     def test_make_tree(self):
         with open("./youtube_discussion_tree_api/tests/comments.json", "r") as f:

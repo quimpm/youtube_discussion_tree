@@ -8,7 +8,7 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
 
 setup(
-    name="youtube_discusion_tree_api",
+    name="youtube_discussion_tree_api",
     version="1.0.0",
     author="Quim10^-12",
     author_email="quimpm99@gmail.com",
@@ -24,5 +24,5 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    install_requires=["requests", "youtube_transcript_api", "transformers", "torch", "torchvision",  "torchaudio", "treelib", "nlt"],
+    install_requires=["requests", "youtube_transcript_api", "transformers", "torch", "torchvision",  "torchaudio", "treelib", "nltk"],
 )

@@ -1,12 +1,12 @@
 from ._conflicts import _tf_idf_automatic_algorithm
 from .utils import Node, Video
 from ._http import _get_video_transcription, _get_video_info, _get_video_comments, _get_list_search_videos
-from ._tree import YoutubeDiscusionTree
+from ._tree import YoutubeDiscussionTree
 from ._quota import QuotaManager
 from ._errors import SearchBoundsExceded
 from transformers import pipeline
 
-class YoutubeDiscusionTreeAPI():
+class YoutubeDiscussionTreeAPI():
 
     def __init__(self, api_key):
         self.api_key = api_key
@@ -16,7 +16,7 @@ class YoutubeDiscusionTreeAPI():
         video_content = _get_video_transcription(video_id) if not summarization else self._sumarize_video(_get_video_transcription(video_id))
         video_info = _get_video_info(video_id, self.api_key, self.quota_manager)
         comments = _get_video_comments(video_id, self.api_key, self.quota_manager)["items"]
-        return YoutubeDiscusionTree(video_id, conflict_solving_algorithm).make_tree(Node (
+        return YoutubeDiscussionTree(video_id, conflict_solving_algorithm).make_tree(Node (
                                                             id = video_info["items"][0]["id"],
                                                             author_name = video_info["items"][0]["snippet"]["channelTitle"],
                                                             author_id = video_info["items"][0]["snippet"]["channelId"],

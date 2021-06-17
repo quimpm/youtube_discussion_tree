@@ -1,16 +1,16 @@
 from youtube_discussion_tree_api.utils.video import Video
-from youtube_discussion_tree_api import YoutubeDiscusionTreeAPI
+from youtube_discussion_tree_api import YoutubeDiscussionTreeAPI
 from unittest import TestCase
 import os
 from youtube_discussion_tree_api._errors import SearchBoundsExceded
 import pickle
 from datetime import datetime
 
-class TestYoutubeDiscusionTreeAPI(TestCase):
+class TestYoutubeDiscussionTreeAPI(TestCase):
 
     def setUp(self):
         self.api_key = os.getenv('API_KEY')
-        self.api = YoutubeDiscusionTreeAPI(self.api_key)
+        self.api = YoutubeDiscussionTreeAPI(self.api_key)
 
     def test_generate_tree(self):
         tree = self.api.generate_tree("9GHmfg54gg8")

@@ -3,7 +3,7 @@ from ._viz import _print_graph
 from .utils import Node
 import re
 
-class YoutubeDiscusionTree():
+class YoutubeDiscussionTree():
 
     def __init__(self, video_id, conflict_solving_algorithm):
         self.video_id = video_id

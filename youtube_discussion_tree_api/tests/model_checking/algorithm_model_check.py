@@ -1,4 +1,4 @@
-from youtube_discussion_tree_api import YoutubeDiscusionTreeAPI
+from youtube_discussion_tree_api import YoutubeDiscussionTreeAPI
 from dotenv import dotenv_values
 import pickle
 
@@ -34,7 +34,7 @@ def main():
     MATCH_TREES = 0
     TOTAL_TREES = 50
     config = dotenv_values("../../.env")
-    api = YoutubeDiscusionTreeAPI(config["API_KEY"])
+    api = YoutubeDiscussionTreeAPI(config["API_KEY"])
     videos = api.search_videos("Functional programming", TOTAL_TREES)
     for i,video in enumerate(videos):
         auto_tree = api.generate_tree(video.id)
