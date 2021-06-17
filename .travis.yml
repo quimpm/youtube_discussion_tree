@@ -3,5 +3,6 @@ python:
   - "3.8"
 install:
   - pip install -r requirements.txt
+  - python -c "import nltk; nltk.download('stopwords')"
 script:
   - python3  -m unittest
