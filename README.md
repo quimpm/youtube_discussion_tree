@@ -1,6 +1,6 @@
 # YouTube Discussion Tree API 
 
-[![Build Status](https://travis-ci.com/quimpm/youtube_discussion_tree.svg?branch=main)](https://travis-ci.com/quimpm/youtube_discussion_tree)[![Coverage Status](https://coveralls.io/repos/github/quimpm/youtube_discussion_tree/badge.svg)](https://coveralls.io/github/quimpm/youtube_discussion_tree)[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](http://opensource.org/licenses/MIT)[![image](https://img.shields.io/pypi/v/youtube-transcript-api.svg)](https://pypi.org/project/youtube-transcript-api/) [![image](https://img.shields.io/pypi/pyversions/youtube-transcript-api.svg)](https://pypi.org/project/youtube-discussion-tree-api/)
+[![Build Status](https://travis-ci.com/quimpm/youtube_discussion_tree.svg?branch=main)](https://travis-ci.com/quimpm/youtube_discussion_tree)[![Coverage Status](https://coveralls.io/repos/github/quimpm/youtube_discussion_tree/badge.svg)](https://coveralls.io/github/quimpm/youtube_discussion_tree)[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](http://opensource.org/licenses/MIT)[![image](https://img.shields.io/pypi/v/youtube-discussion-tree-api.svg)](https://pypi.org/project/youtube-discussion-tree-api/) [![image](https://img.shields.io/pypi/pyversions/youtube-discussion-tree-api.svg)](https://pypi.org/project/youtube-discussion-tree-api/)
 
 This is a python API that allows you to obtain the discussion 
 that occurs in the comments of a YouTube video as a tree structure.
