@@ -89,7 +89,7 @@ This will construct an xml file with the following structure:
 </entailment-corpus>
 
 ```
-In argument-list component there will be all the comment nodes with some information of the Node object. 
+In argument-list component there will be all the comment nodes with some of the information of the Node objects. 
 In argument-pairs component there will be all the edges that comunicate the nodes described in the previous component.
 
 A node will be represented as:
