@@ -1,4 +1,4 @@
-# Youtube Discusion Tree API 
+# YouTube Discusion Tree API 
 
 [![Build Status](https://travis-ci.com/quimpm/youtube_discussion_tree.svg?branch=main)](https://travis-ci.com/quimpm/youtube_discussion_tree)[![Coverage Status](https://coveralls.io/repos/github/quimpm/youtube_discussion_tree/badge.svg)](https://coveralls.io/github/quimpm/youtube_discussion_tree)[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](http://opensource.org/licenses/MIT)
 

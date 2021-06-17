@@ -13,7 +13,7 @@ setup(
     author="Quim10^-12",
     author_email="quimpm99@gmail.com",
     url="https://github.com/quimpm/youtube_discussion_tree",
-    description="This is a python API that allows you to obtain the discusion that occurs on the comments of a Youtube video as a tree structure.",
+    description="This is a python API that allows you to obtain the discussion that occurs in the comments of a YouTube video as a tree structure.",
     long_description=README,
     long_description_content_type="text/markdown",
     license="MIT",
