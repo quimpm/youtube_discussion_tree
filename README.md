@@ -1,6 +1,6 @@
 # Youtube Discusion Tree API 
 
-[![Build Status](https://travis-ci.com/quimpm/youtube_discussion_tree.svg?branch=main)][![MIT license(http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)]
+[![Build Status](https://travis-ci.com/quimpm/youtube_discussion_tree.svg?branch=main)](https://travis-ci.com/quimpm/youtube_discussion_tree)[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](http://opensource.org/licenses/MIT)
 
 This is a python API that allows you to obtain the discusion 
 that occurs on the comments of a Youtube video as a tree structure.
