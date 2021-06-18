@@ -113,6 +113,27 @@ And a pair as:
 ```
 Where h is the destination and t the origin
 
+Also, the function serialize() has an optional argument called **aditional_atributes**. You can pass a function that receives a Node object and outputs a {key : value} dictionary  
+that will represent the additional attributes that you would like to add to the xml tags that represent the Nodes. The key will be the attribute name and the value will be the value of the attribute. 
+
+```python
+def my_additional_atributes(node):
+    return {
+        "date" : node.publishedAt
+        "sentiment" : sentiment_analysis(node.txt) #Imagine we have a function that does sentiment analysis from an input text
+    }
+
+tree.serialize("outuput_file.xml", my_aditional_atributes)
+```
+The nodes will have the following form:
+
+```xml
+<arg author="Flash Man" author_id="UCeFi97LktRRtpCvi_vqEmfg" id="Ugh8N1Ch9gCr-HgCoAEC" likeCount="1145" date="12-12-2012" sentiment="NEGATIVE">
+    My dad is an expert dragon slayer. "eeer but I don't see any dragons around... " You're welcome.
+</arg>
+
+```
+
 ### Representing a tree
 
 If you want to see a representation of the tree, you can do:

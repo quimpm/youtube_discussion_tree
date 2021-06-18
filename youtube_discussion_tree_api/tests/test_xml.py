@@ -68,9 +68,9 @@ class TestXmlTreeConstruction(TestCase):
                 published_at = "12-12-2012"
             )
         ]
-        _serialize_tree("./youtube_discussion_tree_api/tests/output.txt", nodes, None)
-        self.assertTrue(os.path.isfile("./youtube_discussion_tree_api/tests/output.txt"))
-        tree = ET.parse('./youtube_discussion_tree_api/tests/output.txt')
+        _serialize_tree("./youtube_discussion_tree_api/tests/output.xml", nodes, None)
+        self.assertTrue(os.path.isfile("./youtube_discussion_tree_api/tests/output.xml"))
+        tree = ET.parse('./youtube_discussion_tree_api/tests/output.xml')
         self.assertEqual("entailment-corpus",tree.findall(".")[0].tag)
         self.assertTrue(tree.find("./argument-list") != None)
         self.assertTrue(tree.find("./argument-pairs") != None)

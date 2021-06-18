@@ -85,7 +85,7 @@ class YoutubeDiscussionTree():
     def __eq__(self, o: object) -> bool:
         if self.video_id != o.video_id:
             return False
-        for i, node in self.nodes:
+        for i, node in enumerate(self.nodes):
             if node != o.nodes[i]:
                 return False
         return True

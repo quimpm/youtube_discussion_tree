@@ -222,3 +222,31 @@ class TestYoutubeDisscusionTree(TestCase):
         }
         self.assertEqual("Quim Picó Mora", self.tree._find_name_in_thread(["Quim", "Quim Picó", "Quim Picó Mora"]))
         
+    def test_tree_equals(self):
+        with open("./youtube_discussion_tree_api/tests/comments.json", "r") as f:
+            comments = json.load(f)
+        tree1 = self.tree.make_tree(
+                        Node (
+                            id = "video1",
+                            author_name = "authorOfVideo1",
+                            author_id = "author1",
+                            text = "Video of turtles",
+                            like_count = 10000000,
+                            parent_id = None,
+                            published_at = "12-12-2012"
+                        ),
+                        comments["items"]
+                    )
+        tree2 = self.tree.make_tree(
+                        Node (
+                            id = "video1",
+                            author_name = "authorOfVideo1",
+                            author_id = "author1",
+                            text = "Video of turtles",
+                            like_count = 10000000,
+                            parent_id = None,
+                            published_at = "12-12-2012"
+                        ),
+                        comments["items"]
+                    )
+        self.assertTrue(tree1==tree2)
