@@ -1,7 +1,8 @@
+from youtube_discussion_tree_api.utils.quota import QuotaInfo
 from youtube_discussion_tree_api._http import _get_list_search_videos, _get_video_comments, _get_video_transcription, _get_video_info
 from unittest import TestCase
 import os
-from youtube_discussion_tree_api.utils import QuotaInfo
+from youtube_discussion_tree_api.utils import YoutubeDataApiOperations, QuotaInfo
 from youtube_discussion_tree_api._quota import QuotaManager
 from youtube_discussion_tree_api._errors import NoEnglishTranscription
 import warnings
@@ -11,7 +12,7 @@ class TestHttpMethods(TestCase):
     def setUp(self):
         self.API_KEY = os.getenv("API_KEY")
         self.quota_controller = QuotaInfo("apikey", 0, "12-12-2012")
-        self.quota_manger = QuotaManager("./youtube_discussion_tree_api/tests/.quota.pickle")
+        self.quota_manger = QuotaManager("./youtube_discussion_tree_api/tests/.quota.pickle", self.API_KEY)
 
     def test_get_transcription(self):
         with warnings.catch_warnings():

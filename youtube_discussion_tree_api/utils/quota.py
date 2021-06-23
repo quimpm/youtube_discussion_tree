@@ -6,6 +6,6 @@ class QuotaInfo:
     curr_quota: int
     curr_date: int
 
-class QuotaOperations():
+class YoutubeDataApiOperations():
     LIST = 1
     SEARCH = 100

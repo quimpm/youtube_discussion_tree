@@ -5,8 +5,8 @@ from youtube_discussion_tree_api.utils import QuotaInfo
 
 class QuotaManager():
 
-    def __init__(self, filepath):
-        self.api_key = os.getenv("APIKEY")
+    def __init__(self, filepath, api_key):
+        self.api_key = api_key
         self.filepath = filepath
         if(not os.path.isfile(self.filepath)):
             quota_controller = QuotaInfo(self.api_key, 0, datetime.now().strftime("%Y-%m-%d"))

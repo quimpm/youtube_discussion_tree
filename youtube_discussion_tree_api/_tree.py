@@ -11,7 +11,16 @@ class YoutubeDiscussionTree():
         self.nodes = []
         self.contributions = {}
 
-    def make_tree(self, root, comments):
+    def make_tree(self, video_info, video_content, comments):
+        root = Node (
+                        id = video_info["id"],
+                        author_name = video_info["snippet"]["channelTitle"],
+                        author_id = video_info["snippet"]["channelId"],
+                        text = video_content,
+                        like_count = video_info["statistics"]["likeCount"],
+                        parent_id = None,
+                        published_at = video_info["snippet"]["publishedAt"]
+                    )
         self.nodes.append(root)
         self._create_comment_nodes(comments, root.id)
         return self

@@ -14,15 +14,18 @@ class TestYoutubeDisscusionTree(TestCase):
         with open("./youtube_discussion_tree_api/tests/comments.json", "r") as f:
             comments = json.load(f)
         tree = self.tree.make_tree(
-                        Node (
-                            id = "video1",
-                            author_name = "authorOfVideo1",
-                            author_id = "author1",
-                            text = "Video of turtles",
-                            like_count = 10000000,
-                            parent_id = None,
-                            published_at = "12-12-2012"
-                        ),
+                        {
+                            "id" : "video1",
+                            "snippet" : {
+                                "channelTitle" : "authorOfVideo1",
+                                "channelId" : "author1",
+                                "publishedAt" : "12-12-2012"
+                            },
+                            "statistics" : {
+                                "likeCount" : 10000000
+                            }
+                        },
+                        "Video of turtles",
                         comments["items"]
                     )
         self.assertEqual(8, len(tree.nodes))
@@ -45,15 +48,18 @@ class TestYoutubeDisscusionTree(TestCase):
         with open("./youtube_discussion_tree_api/tests/comments.json", "r") as f:
             comments = json.load(f)
         tree = self.tree.make_tree(
-                        Node (
-                            id = "video1",
-                            author_name = "authorOfVideo1",
-                            author_id = "author1",
-                            text = "Video of turtles",
-                            like_count = 10000000,
-                            parent_id = None,
-                            published_at = "12-12-2012"
-                        ),
+                        {
+                            "id" : "video1",
+                            "snippet" : {
+                                "channelTitle" : "authorOfVideo1",
+                                "channelId" : "author1",
+                                "publishedAt" : "12-12-2012"
+                            },
+                            "statistics" : {
+                                "likeCount" : 10000000
+                            }
+                        },
+                        "Video of turtles",
                         comments["items"]
                     )
         tree.serialize("./youtube_discussion_tree_api/tests/output.xml")
@@ -226,27 +232,68 @@ class TestYoutubeDisscusionTree(TestCase):
         with open("./youtube_discussion_tree_api/tests/comments.json", "r") as f:
             comments = json.load(f)
         tree1 = self.tree.make_tree(
-                        Node (
-                            id = "video1",
-                            author_name = "authorOfVideo1",
-                            author_id = "author1",
-                            text = "Video of turtles",
-                            like_count = 10000000,
-                            parent_id = None,
-                            published_at = "12-12-2012"
-                        ),
+                        {
+                            "id" : "video1",
+                            "snippet" : {
+                                "channelTitle" : "authorOfVideo1",
+                                "channelId" : "author1",
+                                "publishedAt" : "12-12-2012"
+                            },
+                            "statistics" : {
+                                "likeCount" : 10000000
+                            }
+                        },
+                        "Video of turtles",
                         comments["items"]
                     )
         tree2 = self.tree.make_tree(
-                        Node (
-                            id = "video1",
-                            author_name = "authorOfVideo1",
-                            author_id = "author1",
-                            text = "Video of turtles",
-                            like_count = 10000000,
-                            parent_id = None,
-                            published_at = "12-12-2012"
-                        ),
+                        {
+                            "id" : "video1",
+                            "snippet" : {
+                                "channelTitle" : "authorOfVideo1",
+                                "channelId" : "author1",
+                                "publishedAt" : "12-12-2012"
+                            },
+                            "statistics" : {
+                                "likeCount" : 10000000
+                            }
+                        },
+                        "Video of turtles",
+                        comments["items"]
+                    )
+        self.assertTrue(tree1==tree2)
+
+    def test_tree_not_equals(self):
+        with open("./youtube_discussion_tree_api/tests/comments.json", "r") as f:
+            comments = json.load(f)
+        tree1 = self.tree.make_tree(
+                        {
+                            "id" : "video2",
+                            "snippet" : {
+                                "channelTitle" : "authorOfVideo1",
+                                "channelId" : "author1",
+                                "publishedAt" : "12-12-2012"
+                            },
+                            "statistics" : {
+                                "likeCount" : 10000000
+                            }
+                        },
+                        "Video of turtles",
+                        comments["items"]
+                    )
+        tree2 = self.tree.make_tree(
+                        {
+                            "id" : "video1",
+                            "snippet" : {
+                                "channelTitle" : "authorOfVideo1",
+                                "channelId" : "author1",
+                                "publishedAt" : "12-12-2012"
+                            },
+                            "statistics" : {
+                                "likeCount" : 10000000
+                            }
+                        },
+                        "Video of turtles",
                         comments["items"]
                     )
         self.assertTrue(tree1==tree2)

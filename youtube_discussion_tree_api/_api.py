@@ -1,5 +1,5 @@
 from ._conflicts import _tf_idf_automatic_algorithm
-from .utils import Node, Video
+from .utils import Video
 from ._http import _get_video_transcription, _get_video_info, _get_video_comments, _get_list_search_videos
 from ._tree import YoutubeDiscussionTree
 from ._quota import QuotaManager
@@ -10,23 +10,13 @@ class YoutubeDiscussionTreeAPI():
 
     def __init__(self, api_key):
         self.api_key = api_key
-        self.quota_manager = QuotaManager(".quota.pickle")
+        self.quota_manager = QuotaManager(".quota.pickle", api_key)
 
     def generate_tree(self, video_id, summarization = False, conflict_solving_algorithm = _tf_idf_automatic_algorithm):
         video_content = _get_video_transcription(video_id) if not summarization else self._sumarize_video(_get_video_transcription(video_id))
         video_info = _get_video_info(video_id, self.api_key, self.quota_manager)
         comments = _get_video_comments(video_id, self.api_key, self.quota_manager)["items"]
-        return YoutubeDiscussionTree(video_id, conflict_solving_algorithm).make_tree(Node (
-                                                            id = video_info["items"][0]["id"],
-                                                            author_name = video_info["items"][0]["snippet"]["channelTitle"],
-                                                            author_id = video_info["items"][0]["snippet"]["channelId"],
-                                                            text = video_content,
-                                                            like_count = video_info["items"][0]["statistics"]["likeCount"],
-                                                            parent_id = None,
-                                                            published_at = video_info["items"][0]["snippet"]["publishedAt"]
-                                                        ),
-                                                        comments
-                                            )
+        return YoutubeDiscussionTree(video_id, conflict_solving_algorithm).make_tree(video_info["items"][0], video_content, comments)
 
     def quota_info(self):
         return {
