@@ -9,7 +9,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="youtube_discussion_tree_api",
-    version="1.0.2",
+    version="1.0.3",
     author="Quim10^-12",
     author_email="quimpm99@gmail.com",
     url="https://github.com/quimpm/youtube_discussion_tree",
