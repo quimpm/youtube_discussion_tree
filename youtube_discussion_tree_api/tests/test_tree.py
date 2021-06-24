@@ -97,17 +97,6 @@ class TestYoutubeDisscusionTree(TestCase):
         self.assertEqual(self.tree.nodes[4].parent_id, "UgznJ9jPP_p6uIF5Wfp4AaABAg")
 
     def test_create_deep_replie_node_no_conflict(self):
-        self.tree.contributions = {
-            "Quim Picó Mora" : [Node(
-                id = "comment1",
-                author_name = "Quim Picó Mora",
-                author_id = "author1",
-                text = "Comment about turtles",
-                like_count = 10000000,
-                parent_id = None,
-                published_at = "12-12-2012"
-            )]
-        }
         node = self.tree._create_deep_replie_node("Quim Picó Mora",    
                                             {
                                                 "id" : "comment2",
@@ -120,30 +109,21 @@ class TestYoutubeDisscusionTree(TestCase):
                                                     "likeCount" : 100000,
                                                     "publishedAt" : "12-12-2020"
                                                 }
+                                            }, {
+                                                "Quim Picó Mora" : [Node(
+                                                    id = "comment1",
+                                                    author_name = "Quim Picó Mora",
+                                                    author_id = "author1",
+                                                    text = "Comment about turtles",
+                                                    like_count = 10000000,
+                                                    parent_id = None,
+                                                    published_at = "12-12-2012"
+                                                )]
                                             })
         self.assertEqual("comment1", node.parent_id)
 
 
     def test_create_deep_replie_node_conflict(self):
-        self.tree.contributions = {
-            "Quim Picó Mora" : [Node(
-                id = "comment1",
-                author_name = "Quim Picó Mora",
-                author_id = "author1",
-                text = "Comment about turtles, turtles are really interesting",
-                like_count = 10000000,
-                parent_id = None,
-                published_at = "12-12-2012"
-            ),Node(
-                id = "comment2",
-                author_name = "Quim Picó Mora",
-                author_id = "author1",
-                text = "Cats are animals that have 4 legs and are cute",
-                like_count = 10000000,
-                parent_id = None,
-                published_at = "12-12-2012"
-            )]
-        }
         node = self.tree._create_deep_replie_node("Quim Picó Mora",    
                                             {
                                                 "id" : "comment2",
@@ -156,11 +136,29 @@ class TestYoutubeDisscusionTree(TestCase):
                                                     "likeCount" : 100000,
                                                     "publishedAt" : "12-12-2020"
                                                 }
+                                            }, {
+                                                "Quim Picó Mora" : [Node(
+                                                    id = "comment1",
+                                                    author_name = "Quim Picó Mora",
+                                                    author_id = "author1",
+                                                    text = "Comment about turtles, turtles are really interesting",
+                                                    like_count = 10000000,
+                                                    parent_id = None,
+                                                    published_at = "12-12-2012"
+                                                ),Node(
+                                                    id = "comment2",
+                                                    author_name = "Quim Picó Mora",
+                                                    author_id = "author1",
+                                                    text = "Cats are animals that have 4 legs and are cute",
+                                                    like_count = 10000000,
+                                                    parent_id = None,
+                                                    published_at = "12-12-2012"
+                                                )]
                                             })
         self.assertEqual("comment1", node.parent_id)
 
     def test_actualize_contributions_first_contribution(self):
-        self.tree._actualize_contributions(Node(
+        contributions = self.tree._actualize_contributions(Node(
                 id = "comment1",
                 author_name = "Quim Picó Mora",
                 author_id = "author1",
@@ -168,22 +166,11 @@ class TestYoutubeDisscusionTree(TestCase):
                 like_count = 10000000,
                 parent_id = None,
                 published_at = "12-12-2012"
-            ))
-        self.assertEqual("comment1", self.tree.contributions["Quim Picó Mora"][0].id)
+            ), {})
+        self.assertEqual("comment1", contributions["Quim Picó Mora"][0].id)
     
     def test_actualize_contributions_various_contributions(self):
-        self.tree.contributions = {
-            "Quim Picó Mora" : [Node(
-                id = "comment2",
-                author_name = "Quim Picó Mora",
-                author_id = "author1",
-                text = "Cats are animals",
-                like_count = 10000000,
-                parent_id = None,
-                published_at = "12-12-2012"
-            )]
-        }
-        self.tree._actualize_contributions(Node(
+        contributions= self.tree._actualize_contributions(Node(
                 id = "comment1",
                 author_name = "Quim Picó Mora",
                 author_id = "author1",
@@ -191,9 +178,19 @@ class TestYoutubeDisscusionTree(TestCase):
                 like_count = 10000000,
                 parent_id = None,
                 published_at = "12-12-2012"
-            ))
-        self.assertEqual(2, len(self.tree.contributions["Quim Picó Mora"]))
-        self.assertEqual("comment1", self.tree.contributions["Quim Picó Mora"][1].id)
+            ), {
+                "Quim Picó Mora" : [Node(
+                    id = "comment2",
+                    author_name = "Quim Picó Mora",
+                    author_id = "author1",
+                    text = "Cats are animals",
+                    like_count = 10000000,
+                    parent_id = None,
+                    published_at = "12-12-2012"
+                )]
+            })
+        self.assertEqual(2, len(contributions["Quim Picó Mora"]))
+        self.assertEqual("comment1", contributions["Quim Picó Mora"][1].id)
 
     def test_new_node(self):
         jsonComment = {
@@ -223,10 +220,7 @@ class TestYoutubeDisscusionTree(TestCase):
         self.assertEqual(["Quim"], self.tree._get_possible_names("@Quim".split()))
 
     def test_find_name_in_thread(self):
-        self.tree.contributions = {
-            "Quim Picó Mora" : "Tha one and only"
-        }
-        self.assertEqual("Quim Picó Mora", self.tree._find_name_in_thread(["Quim", "Quim Picó", "Quim Picó Mora"]))
+        self.assertEqual("Quim Picó Mora", self.tree._find_name_in_thread(["Quim", "Quim Picó", "Quim Picó Mora"], {"Quim Picó Mora" : "Tha one and only"}))
         
     def test_tree_equals(self):
         with open("./youtube_discussion_tree_api/tests/comments.json", "r") as f:

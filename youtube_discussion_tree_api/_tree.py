@@ -9,7 +9,6 @@ class YoutubeDiscussionTree():
         self.video_id = video_id
         self.conflict_solving_algorithm = conflict_solving_algorithm
         self.nodes = []
-        self.contributions = {}
 
     def make_tree(self, video_info, video_content, comments):
         root = Node (
@@ -41,32 +40,34 @@ class YoutubeDiscussionTree():
                 self._create_replies_nodes(list(reversed(comment_thread["replies"]["comments"])), self.nodes[-1].id)
 
     def _create_replies_nodes(self, replies, top_level_comment_id):
+        contributions = {}
         for reply in replies:
             match = re.match('(@.{0,50} )', reply["snippet"]["textOriginal"])
             if match:
                 possible_names = self._get_possible_names(match[0].split(" "))
-                name = self._find_name_in_thread(possible_names)
+                name = self._find_name_in_thread(possible_names, contributions)
                 if not name:
                     curr_node = self._new_node(reply, top_level_comment_id)
                 else:
-                    curr_node = self._create_deep_replie_node(name, reply)
+                    curr_node = self._create_deep_replie_node(name, reply , contributions)
             else:
                 curr_node = self._new_node(reply, top_level_comment_id)
             self.nodes.append(curr_node)
-            self._actualize_contributions(curr_node)
+            contributions = self._actualize_contributions(curr_node, contributions)
 
-    def _create_deep_replie_node(self, name, reply):
-        if len(self.contributions[name]) == 1:
-            return self._new_node(reply, self.contributions[name][0].id)
+    def _create_deep_replie_node(self, name, reply, contributions):
+        if len(contributions[name]) == 1:
+            return self._new_node(reply, contributions[name][0].id)
         else:
-            parent_id = self.conflict_solving_algorithm(self._new_node(reply, None), self.contributions[name])
+            parent_id = self.conflict_solving_algorithm(self._new_node(reply, None), contributions[name])
             return self._new_node(reply, parent_id)
 
-    def _actualize_contributions(self, curr_node):
-        if curr_node.author_name in self.contributions.keys():
-            self.contributions[curr_node.author_name].append(curr_node)
+    def _actualize_contributions(self, curr_node, contributions):
+        if curr_node.author_name in contributions.keys():
+            contributions[curr_node.author_name].append(curr_node)
         else:
-            self.contributions[curr_node.author_name] = [curr_node]
+            contributions[curr_node.author_name] = [curr_node]
+        return contributions
 
     def _new_node(self, comment, parent_id):
         return Node(
@@ -85,9 +86,9 @@ class YoutubeDiscussionTree():
         else:
             return [' '.join(tokenized_match_string)[1:]] + self._get_possible_names(tokenized_match_string[:-1])
 
-    def _find_name_in_thread(self, possible_names):
+    def _find_name_in_thread(self, possible_names, contributions):
         for name in possible_names:
-            if name in self.contributions.keys():
+            if name in contributions.keys():
                 return name
         return []
 
